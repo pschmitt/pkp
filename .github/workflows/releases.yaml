@@ -37,3 +37,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/pkp_static
           asset_name: pkp_amd64_static
+          asset_content_type: application/octet-stream
