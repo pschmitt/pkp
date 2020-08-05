@@ -36,4 +36,4 @@ if __name__ == "__main__":
             for entry in group.entries:
                 print(f"- {entry.path}", file=sys.stderr)
         sys.exit(3)
-    print(getattr(entry.password))
+    print(getattr(entry, args.attribute))
