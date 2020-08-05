@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import argparse
+import os
 import sys
 
 import pykeepass
@@ -29,5 +30,10 @@ if __name__ == "__main__":
     entry = pkp.find_entries_by_path(args.path, regex=True)
     if not entry:
         print(f"Failed to find entry: {args.path}", file=sys.stderr)
+        group = pkp.find_groups_by_path(os.path.dirname(args.path), regex=True)
+        if group:
+            print("Did you mean one of the following?", file=sys.stderr)
+            for entry in group.entries:
+                print(f"- {entry.path}", file=sys.stderr)
         sys.exit(3)
     print(getattr(entry.password))
