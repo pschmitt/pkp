@@ -33,6 +33,8 @@ if __name__ == "__main__":
         group = pkp.find_groups_by_path(os.path.dirname(args.path), regex=True)
         if group:
             print("Did you mean one of the following?", file=sys.stderr)
+            for group in group.subgroups:
+                print(f"- {group.path}", file=sys.stderr)
             for entry in group.entries:
                 print(f"- {entry.path}", file=sys.stderr)
         sys.exit(3)
