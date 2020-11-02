@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Multiarch build
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -53,6 +53,8 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     needs: build
+    outputs:
+      release_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Create Release
         id: create_release
@@ -64,11 +66,6 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: true
-
-      - uses: nick-invision/persist-action-data@v1
-        with:
-          data: ${{ steps.create_release.outputs.upload_url }}
-          variable: RELEASE_UPLOAD_URL
 
   release_attach_binaries:
     name: Attach binaries to release
@@ -85,13 +82,6 @@ jobs:
           # - ppc64le
           # - s390x
     steps:
-      - uses: nick-invision/persist-action-data@v1
-        with:
-          data: ${{ steps.create_release.outputs.upload_url }}
-          retrieve_variables: RELEASE_UPLOAD_URL
-
-      - run: echo ${{ steps.create_release.outputs.upload_url.RELEASE_UPLOAD_URL }}
-
       - name: Download binary artifacts
         uses: actions/download-artifact@v2
         with:
@@ -102,7 +92,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          # upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.release.outputs.upload_url }}
           asset_path: ./pkp_${{ matrix.arch }}_static/pkp_${{ matrix.arch }}_static
           asset_name: pkp_${{ matrix.arch }}_static
           asset_content_type: application/octet-stream
