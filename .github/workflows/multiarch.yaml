@@ -70,6 +70,9 @@ jobs:
           draft: true
           prerelease: true
 
+      - run: ls -al
+      - run: ls -al binaries
+
       - name: Upload Release Asset (amd64)
         id: upload-release-asset-amd64
         uses: actions/upload-release-asset@v1
