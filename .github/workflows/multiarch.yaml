@@ -95,26 +95,12 @@ jobs:
           asset_name: pkp_amd64_static
           asset_content_type: application/octet-stream
 
-      # - name: Create Release
-      #   uses: softprops/action-gh-release@v1
-      #   # if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     name: Test GitHub Actions Release
-      #     tag_name: test-release
-      #     prerelease: true
-      #     draft: true
-      #     files: |
-      #       ./binaries/pkp_amd64_static
-      #       ./binaries/pkp_386_static
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Delete release if anything goes wrong.
-      #   if: ${{ failure() }}
-      #   uses: author/action-rollback@stable
-      #   with:
-      #     id: ${{ steps.create_release.id }}
-      #     # tag: 'v1.0.1'
-      #     always_delete_tag: true
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Delete release if anything goes wrong.
+        if: ${{ failure() }}
+        uses: author/action-rollback@stable
+        with:
+          id: ${{ steps.create_release.id }}
+          tag: ${{ github.ref }}
+          always_delete_tag: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
