@@ -15,10 +15,10 @@ jobs:
         arch:
           - amd64
           - 386
-          - arm
-          - arm64
-          - ppc64le
-          - s390x
+          # - arm
+          # - arm64
+          # - ppc64le
+          # - s390x
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
