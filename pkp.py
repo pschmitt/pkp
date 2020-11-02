@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+__version__ = "0.3.0"
+
 import argparse
 import os
 import sys
@@ -12,6 +14,7 @@ def parse_args():
     import argparse
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--version", action="store_true", required=False)
     parser.add_argument("-f", "--file", help="KeePass DB file", required=True)
     parser.add_argument("-p", "--password", required=False, help="Password")
     parser.add_argument("-F", "--keyfile", required=False, help="Key file")
@@ -48,6 +51,9 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
+    if args.version:
+        print(__version__)
+        sys.exit(0)
     regex = not args.raw
     flags = "i" if args.ignorecase else ""
     pkp = pykeepass.PyKeePass(
