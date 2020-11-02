@@ -57,7 +57,7 @@ jobs:
       - name: Download binary artifacts
         uses: actions/download-artifact@v2
         with:
-          path: binaries
+          path: ./
 
       - name: Create Release
         id: create_release
@@ -71,7 +71,6 @@ jobs:
           prerelease: true
 
       - run: ls -al
-      - run: ls -al binaries
 
       - name: Upload Release Asset (amd64)
         id: upload-release-asset-amd64
@@ -80,7 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries/pkp_amd64_static
+          asset_path: ./pkp_amd64_static
           asset_name: pkp_amd64_static
           asset_content_type: application/octet-stream
 
@@ -91,7 +90,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries/pkp_386_static
+          asset_path: ./pkp_386_static
           asset_name: pkp_amd64_static
           asset_content_type: application/octet-stream
 
