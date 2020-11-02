@@ -87,6 +87,8 @@ jobs:
         with:
           name: Test GitHub Actions Release
           tag_name: ${{ github.ref }}
+          prerelease: true
+          draft: true
           files: |
             ./binaries/pkp_amd64_static
             ./binaries/pkp_386_static
