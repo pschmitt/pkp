@@ -70,37 +70,52 @@ jobs:
           draft: true
           prerelease: true
 
+      - uses: nick-invision/persist-action-data@v1
+        with:
+          data: ${{ steps.create_release.outputs.upload_url }}
+          variable: RELEASE_UPLOAD_URL
+
       - run: ls -al
       - run: ls -al pkp_386_static
 
-      - name: Upload Release Asset (amd64)
-        id: upload-release-asset-amd64
+  attach_binaries:
+    name: Attach binaries to release
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - amd64
+          - 386
+          # - arm
+          # - arm64
+          # - ppc64le
+          # - s390x
+    steps:
+      - uses: nick-invision/persist-action-data@v1
+        with:
+          data: ${{ steps.create_release.outputs.upload_url }}
+          retrieve_variables: RELEASE_UPLOAD_URL
+
+      - run: echo ${{ steps.create_release.outputs.upload_url.RELEASE_UPLOAD_URL }}
+
+      - name: Upload Release Asset (${{ matrix.arch }})
+        id: upload-release-asset-${{ matrix.arch }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pkp_amd64_static/pkp_amd64_static
-          asset_name: pkp_amd64_static
+          asset_path: ./pkp_${{ matrix.arch }}_static/pkp_${{ matrix.arch }}_static
+          asset_name: pkp_${{ matrix.arch }}_static
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset (386)
-        id: upload-release-asset-386
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pkp_386_static/pkp_386_static
-          asset_name: pkp_386_static
-          asset_content_type: application/octet-stream
-
-      - name: Delete release if anything goes wrong.
-        if: ${{ failure() }}
-        uses: author/action-rollback@master
-        with:
-          release_id: ${{ steps.create_release.id }}
-          tag: ${{ github.ref }}
-          always_delete_tag: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Delete release if anything goes wrong.
+      #   if: ${{ failure() }}
+      #   uses: author/action-rollback@master
+      #   with:
+      #     release_id: ${{ steps.create_release.id }}
+      #     tag: ${{ github.ref }}
+      #     always_delete_tag: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
