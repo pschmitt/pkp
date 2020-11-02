@@ -40,4 +40,5 @@ jobs:
 
       - name: Build pkp (${{ matrix.arch }})
         run: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled
           ./build.sh "${{ matrix.arch }}"
