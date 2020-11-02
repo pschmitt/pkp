@@ -1,0 +1,43 @@
+name: Upload Release Asset
+
+on:
+  push:
+    branches:
+      - multiarch
+
+jobs:
+  build-multiarch:
+    name: Multiarch build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - amd64
+          - 386
+          - arm
+          - arm64
+          - mips64le
+          - ppc64le
+          - s390x
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+         platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+          install: true
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Build pkp (${{ matrix.arch }})
+        run: |
+          ./build.sh "${{ matrix.arch }}"
