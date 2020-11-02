@@ -2,13 +2,8 @@ name: Craft a new release
 
 on:
   push:
-    branches:
-      - multiarch
-
-# on:
-#   push:
-#     tags:
-#       - '*'
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -69,8 +64,8 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
 
   release_attach_binaries:
     name: Add binaries to release
