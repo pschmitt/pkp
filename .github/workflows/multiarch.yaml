@@ -54,11 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download binary artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: ./
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -75,12 +70,10 @@ jobs:
           data: ${{ steps.create_release.outputs.upload_url }}
           variable: RELEASE_UPLOAD_URL
 
-      - run: ls -al
-      - run: ls -al pkp_386_static
-
-  attach_binaries:
+  release_attach_binaries:
     name: Attach binaries to release
     runs-on: ubuntu-latest
+    needs: release
     strategy:
       fail-fast: false
       matrix:
@@ -98,6 +91,11 @@ jobs:
           retrieve_variables: RELEASE_UPLOAD_URL
 
       - run: echo ${{ steps.create_release.outputs.upload_url.RELEASE_UPLOAD_URL }}
+
+      - name: Download binary artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: ./
 
       - name: Upload Release Asset (${{ matrix.arch }})
         id: upload-release-asset-${{ matrix.arch }}
