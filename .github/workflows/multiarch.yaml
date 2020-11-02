@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pkp_${{ matrix.arch }}_static
-          path: pkp_${{ matrix.arch }}_static
+          path: ./dist/pkp_${{ matrix.arch }}_static
 
   release:
     name: Create release
