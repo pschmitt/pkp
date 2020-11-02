@@ -86,7 +86,7 @@ jobs:
         # if: startsWith(github.ref, 'refs/tags/')
         with:
           name: Test GitHub Actions Release
-          tag_name: ${{ github.ref }}
+          tag_name: test-release
           prerelease: true
           draft: true
           files: |
