@@ -6,7 +6,7 @@ on:
       - multiarch
 
 jobs:
-  build-multiarch:
+  build:
     name: Multiarch build
     runs-on: ubuntu-latest
     strategy:
@@ -52,48 +52,59 @@ jobs:
   release:
     name: Create release
     runs-on: ubuntu-latest
-    needs: build-multiarch
+    needs: build
     steps:
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     draft: true
-      #     prerelease: true
-
       - name: Download binary artifacts
         uses: actions/download-artifact@v2
         with:
           path: binaries
 
-      # - name: Upload Release Asset
-      #   id: upload-release-asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./dist/pkp_static
-      #     asset_name: pkp_amd64_static
-      #     asset_content_type: application/octet-stream
-
       - name: Create Release
-        uses: softprops/action-gh-release@v1
-        # if: startsWith(github.ref, 'refs/tags/')
-        with:
-          name: Test GitHub Actions Release
-          tag_name: test-release
-          prerelease: true
-          draft: true
-          files: |
-            ./binaries/pkp_amd64_static
-            ./binaries/pkp_386_static
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: true
+
+      - name: Upload Release Asset (amd64)
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries/pkp_amd64_static
+          asset_name: pkp_amd64_static
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (i386)
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries/pkp_386_static
+          asset_name: pkp_amd64_static
+          asset_content_type: application/octet-stream
+
+      # - name: Create Release
+      #   uses: softprops/action-gh-release@v1
+      #   # if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     name: Test GitHub Actions Release
+      #     tag_name: test-release
+      #     prerelease: true
+      #     draft: true
+      #     files: |
+      #       ./binaries/pkp_amd64_static
+      #       ./binaries/pkp_386_static
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Delete release if anything goes wrong.
       #   if: ${{ failure() }}
