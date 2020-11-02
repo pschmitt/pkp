@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     outputs:
-      release_url: ${{ steps.create_release.outputs.upload_url }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Create Release
         id: create_release
@@ -68,7 +68,7 @@ jobs:
           prerelease: true
 
   release_attach_binaries:
-    name: Attach binaries to release
+    name: Add binaries to release
     runs-on: ubuntu-latest
     needs: release
     strategy:
