@@ -8,21 +8,32 @@ usage() {
 }
 
 get_build_image_manifest() {
-  local arch="${1:-amd64}"
-
   # Cache manifest
   if [[ -z "$MANIFEST" ]]
   then
     MANIFEST="$(docker manifest inspect "$BUILD_IMAGE")"
   fi
 
-  jq -r '.manifests[] | select(.platform.architecture == "'"${arch}"'").digest' <<< "$MANIFEST"
+  echo "$MANIFEST"
+}
+
+get_build_image_archs() {
+  get_build_image_manifest | \
+    jq -r '.manifests[].platform.architecture' | \
+    sort -u
+}
+
+get_build_image_digest() {
+  local arch="${1:-amd64}"
+
+  get_build_image_manifest | \
+    jq -r '.manifests[] | select(.platform.architecture == "'"${arch}"'").digest'
 }
 
 build() {
   local arch="${1:-amd64}"
   local digest
-  digest="$(get_build_image_manifest "$arch")"
+  digest="$(get_build_image_digest "$arch")"
 
   if [[ -z "$digest" ]]
   then
@@ -47,7 +58,18 @@ then
       usage
       exit 0
       ;;
+    all|--all|-a|-A)
+      BUILD_ALL=1
+      ;;
   esac
 
-  build "$@"
+  if [[ -n "$BUILD_ALL" ]]
+  then
+    for arch in $(get_build_image_archs)
+    do
+      build "$arch"
+    done
+  else
+    build "$@"
+  fi
 fi
