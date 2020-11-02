@@ -6,5 +6,5 @@ docker run --rm \
   -v "$PWD:/app" \
   -e STATICX=1 \
   -e STATICX_ARGS="--strip" \
-  pschmitt/pyinstaller:3.7 \
+  pschmitt/pyinstaller:3.8 \
   pkp.py
