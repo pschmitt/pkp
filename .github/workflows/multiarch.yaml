@@ -97,9 +97,9 @@ jobs:
 
       - name: Delete release if anything goes wrong.
         if: ${{ failure() }}
-        uses: author/action-rollback@stable
+        uses: author/action-rollback@master
         with:
-          id: ${{ steps.create_release.id }}
+          release_id: ${{ steps.create_release.id }}
           tag: ${{ github.ref }}
           always_delete_tag: true
         env:
