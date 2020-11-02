@@ -5,6 +5,11 @@ on:
     branches:
       - multiarch
 
+# on:
+#   push:
+#     tags:
+#       - '*'
+
 jobs:
   build:
     name: Build
@@ -15,8 +20,8 @@ jobs:
         arch:
           - amd64
           - 386
-          # - arm
-          # - arm64
+          - arm
+          - arm64
           # - ppc64le
           # - s390x
     steps:
@@ -77,8 +82,8 @@ jobs:
         arch:
           - amd64
           - 386
-          # - arm
-          # - arm64
+          - arm
+          - arm64
           # - ppc64le
           # - s390x
     steps:
@@ -92,7 +97,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # upload_url: ${{ steps.create_release.outputs.upload_url }}
           upload_url: ${{ needs.release.outputs.upload_url }}
           asset_path: ./pkp_${{ matrix.arch }}_static/pkp_${{ matrix.arch }}_static
           asset_name: pkp_${{ matrix.arch }}_static
