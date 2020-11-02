@@ -80,3 +80,13 @@ jobs:
           asset_path: ./dist/pkp_static
           asset_name: pkp_amd64_static
           asset_content_type: application/octet-stream
+
+      - name: Delete release if anything goes wrong.
+        if: ${{ failure() }}
+        uses: author/action-rollback@stable
+        with:
+          id: ${{ steps.create_release.id }}
+          # tag: 'v1.0.1'
+          always_delete_tag: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
