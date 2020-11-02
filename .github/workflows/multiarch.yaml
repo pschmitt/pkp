@@ -85,6 +85,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ github.ref }}
           files: |
             pkp_amd64_static
             pkp_386_static
