@@ -98,7 +98,6 @@ jobs:
           path: ./
 
       - name: Upload Release Asset (${{ matrix.arch }})
-        id: upload-release-asset-${{ matrix.arch }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
