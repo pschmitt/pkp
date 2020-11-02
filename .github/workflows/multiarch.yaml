@@ -42,3 +42,10 @@ jobs:
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           ./build.sh "${{ matrix.arch }}"
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pkp_${{ matrix.arch }}_static
+          path: pkp_${{ matrix.arch }}_static
+
