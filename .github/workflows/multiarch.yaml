@@ -71,6 +71,7 @@ jobs:
           prerelease: true
 
       - run: ls -al
+      - run: ls -al pkp_386_static
 
       - name: Upload Release Asset (amd64)
         id: upload-release-asset-amd64
@@ -79,19 +80,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pkp_amd64_static
+          asset_path: ./pkp_amd64_static/pkp_amd64_static
           asset_name: pkp_amd64_static
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset (i386)
+      - name: Upload Release Asset (386)
         id: upload-release-asset-386
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./pkp_386_static
-          asset_name: pkp_amd64_static
+          asset_path: ./pkp_386_static/pkp_386_static
+          asset_name: pkp_386_static
           asset_content_type: application/octet-stream
 
       - name: Delete release if anything goes wrong.
