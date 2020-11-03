@@ -46,14 +46,14 @@ jobs:
       - name: Upload binary artifact (dynamic)
         uses: actions/upload-artifact@v2
         with:
-          name: pkp_${{ matrix.arch }}
-          path: ./dist/pkp_${{ matrix.arch }}
+          name: pkp-${{ matrix.arch }}
+          path: ./dist/pkp-${{ matrix.arch }}
 
       - name: Upload binary artifact (static)
         uses: actions/upload-artifact@v2
         with:
-          name: pkp_${{ matrix.arch }}_static
-          path: ./dist/pkp_${{ matrix.arch }}_static
+          name: pkp-${{ matrix.arch }}-static
+          path: ./dist/pkp-${{ matrix.arch }}-static
 
   release:
     name: Create release
@@ -99,8 +99,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./pkp_${{ matrix.arch }}/pkp_${{ matrix.arch }}
-          asset_name: pkp_${{ matrix.arch }}
+          asset_path: ./pkp-${{ matrix.arch }}/pkp-${{ matrix.arch }}
+          asset_name: pkp-${{ github.ref }}-${{ matrix.arch }}
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset (${{ matrix.arch }}-static)
@@ -109,8 +109,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: ./pkp_${{ matrix.arch }}_static/pkp_${{ matrix.arch }}_static
-          asset_name: pkp_${{ matrix.arch }}_static
+          asset_path: ./pkp-${{ matrix.arch }}-static/pkp-${{ matrix.arch }}-static
+          asset_name: pkp-${{ github.ref }}-${{ matrix.arch }}-static
           asset_content_type: application/octet-stream
 
       # - name: Delete release if anything goes wrong.

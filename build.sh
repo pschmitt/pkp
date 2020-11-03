@@ -58,9 +58,9 @@ build() {
     -v "$PWD:/app" \
     -e STATICX=1 \
     -e STATICX_ARGS="--strip" \
-    -e STATICX_OUTPUT="./dist/pkp_${arch}_static" \
+    -e STATICX_OUTPUT="./dist/pkp-${arch}-static" \
     "pschmitt/pyinstaller@${digest}" \
-    -n "pkp_${arch}" pkp.py
+    -n "pkp-${arch}" pkp.py
 }
 
 build_termux() {
@@ -76,12 +76,14 @@ build_termux() {
 
   rm -rf ./venv ./dist ./build ./__pycache__
   python -m venv venv
+  # shellcheck disable=1091
   source ./venv/bin/activate
   pip install -U pip wheel
   pip install -r requirements.txt
   pip install -r requirements-dev.txt
 
-  local arch="$(uname -m)"
+  local arch
+  arch="$(uname -m)"
 
   case "$arch" in
     aarch64)
@@ -95,7 +97,7 @@ build_termux() {
   echo "👷 Starting build of pkp (${arch}-termux)"
 
   LD_LIBRARY_PATH="${PREFIX}/lib" \
-    pyinstaller -F -n "pkp_${arch}_termux" ./pkp.py
+    pyinstaller -F -n "pkp-${arch}-termux" ./pkp.py
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
