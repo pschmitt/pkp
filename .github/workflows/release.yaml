@@ -15,8 +15,8 @@ jobs:
         arch:
           - amd64
           - 386
-          - arm
-          - arm64
+          # - arm
+          # - arm64
           # - ppc64le
           # - s390x
     steps:
@@ -83,8 +83,8 @@ jobs:
         arch:
           - amd64
           - 386
-          - arm
-          - arm64
+          # - arm
+          # - arm64
           # - ppc64le
           # - s390x
     steps:
@@ -92,6 +92,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: ./
+
+      - run: ls -al .
+      - run: ls -al ./pkp_amd64 || true
+      - run: ls -al ./pkp_amd64_static || true
 
       - name: Upload Release Asset (${{ matrix.arch }})
         uses: actions/upload-release-asset@v1
