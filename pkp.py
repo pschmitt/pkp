@@ -148,5 +148,6 @@ if __name__ == "__main__":
                 file=sys.stderr,
             )
             sys.exit(3)
+
         for entry in entries:
             print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
