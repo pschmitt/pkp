@@ -92,6 +92,9 @@ def print_entry(entry, file=sys.stdout):
 
 
 def ls(kp, args):
+    regex = not args.raw
+    ignorecase = not args.case_sensitive
+
     entries = kp.entries
     if hasattr(args, "PATH") and args.PATH:
         regex_path = re.compile(
@@ -109,6 +112,10 @@ def ls(kp, args):
 
 
 def get(kp, args):
+    regex = not args.raw
+    ignorecase = not args.case_sensitive
+    flags = "i" if ignorecase else ""
+
     LOGGER.debug(
         f"Get entry {args.VALUE} ({args.attribute})",
     )
@@ -135,6 +142,9 @@ def get(kp, args):
 
 
 def search(kp, args):
+    regex = not args.raw
+    ignorecase = not args.case_sensitive
+
     LOGGER.debug(
         f"Search entries matching {args.attribute} = {args.VALUE}",
     )
@@ -173,10 +183,6 @@ def main():
         logging.basicConfig()
         LOGGER.setLevel(logging.DEBUG)
         LOGGER.debug(f"ARGS: {args}")
-
-    regex = not args.raw
-    ignorecase = not args.case_sensitive
-    flags = "i" if ignorecase else ""
 
     kp = pykeepass.PyKeePass(
         filename=args.file, password=args.password, keyfile=args.keyfile
