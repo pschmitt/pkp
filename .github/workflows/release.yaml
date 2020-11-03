@@ -93,6 +93,10 @@ jobs:
         with:
           path: ./
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
       - name: Upload Release Asset (${{ matrix.arch }})
         uses: actions/upload-release-asset@v1
         env:
@@ -100,7 +104,7 @@ jobs:
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
           asset_path: ./pkp-${{ matrix.arch }}/pkp-${{ matrix.arch }}
-          asset_name: pkp-${{ github.ref }}-${{ matrix.arch }}
+          asset_name: pkp-${{ steps.get_version.outputs.VERSION }}-${{ matrix.arch }}
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset (${{ matrix.arch }}-static)
@@ -110,7 +114,7 @@ jobs:
         with:
           upload_url: ${{ needs.release.outputs.upload_url }}
           asset_path: ./pkp-${{ matrix.arch }}-static/pkp-${{ matrix.arch }}-static
-          asset_name: pkp-${{ github.ref }}-${{ matrix.arch }}-static
+          asset_name: pkp-${{ steps.get_version.outputs.VERSION }}-${{ matrix.arch }}-static
           asset_content_type: application/octet-stream
 
       # - name: Delete release if anything goes wrong.
