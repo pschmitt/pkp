@@ -30,7 +30,7 @@ jobs:
           # exit-zero treats all errors as warnings. Set line length to 80 chars max.
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=80 --statistics
 
-  requirements:
+  poetry:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -55,6 +55,13 @@ jobs:
           poetry export -f requirements.txt --without-hashes --dev -o requirements-ci-dev.txt
           diff ./requirements.txt ./requirements-ci.txt
           diff ./requirements-dev.txt ./requirements-ci-dev.txt
+
+      - name: Check compare version in pyproject.toml and pkp.__version__
+        run: |
+          v_pyproject=$(poetry version -s --no-ansi)
+          v_py=$(poetry run python -c "import pkp; print(pkp.__version__)")
+          if [[ "$v_pyproject" != "$v_py" ]]; then echo "Version mismatch detected" >&2; exit 1; fi
+
 
   black:
     runs-on: ubuntu-latest
