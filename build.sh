@@ -53,6 +53,37 @@ build() {
     -n "pkp_${arch}" pkp.py
 }
 
+build_termux() {
+  if ! command -v termux-info >/dev/null
+  then
+    echo "This script requires to be run from within Termux." >&2
+    exit 2
+  fi
+
+  cd "$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)" || exit 9
+
+  rm -rf ./venv ./dist ./build ./__pycache__
+  python -m venv venv
+  source ./venv/bin/activate
+  pip install -U pip wheel
+  pip install -r requirements.txt
+  pip install -r requirements-dev.txt
+
+  local arch="$(uname -m)"
+
+  case "$arch" in
+    aarch64)
+      arch=arm64
+      ;;
+    arm*)
+      arch=arm
+      ;;
+  esac
+
+  LD_LIBRARY_PATH="${PREFIX}/lib" \
+    pyinstaller -F -n "pkp_${arch}_termux" ./pkp.py
+}
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
 then
   case "$1" in
@@ -63,6 +94,9 @@ then
     all|--all|-a|-A)
       BUILD_ALL=1
       ;;
+    termux|android)
+      BUILD_TERMUX=1
+      ;;
   esac
 
   if [[ -n "$BUILD_ALL" ]]
@@ -71,6 +105,9 @@ then
     do
       build "$arch"
     done
+  elif [[ -n "$BUILD_TERMUX" ]]
+  then
+    build_termux
   else
     build "$@"
   fi
