@@ -79,7 +79,7 @@ build_termux() {
   # shellcheck disable=1091
   source ./venv/bin/activate
   pip install -U pip wheel
-  pip install -r requirements.txt
+  # pip install -r requirements.txt
   pip install -r requirements-dev.txt
 
   local arch
