@@ -7,6 +7,10 @@ usage() {
   echo "Usage: $(basename "$0") ARCH"
 }
 
+is_termux() {
+  command -v termux-info >/dev/null
+}
+
 get_build_image_manifest() {
   # Cache manifest
   if [[ -z "$MANIFEST" ]]
@@ -31,6 +35,12 @@ get_build_image_digest() {
 }
 
 build() {
+  if is_termux
+  then
+    build_termux
+    return
+  fi
+
   local arch="${1:-amd64}"
   local digest
   digest="$(get_build_image_digest "$arch")"
@@ -54,11 +64,13 @@ build() {
 }
 
 build_termux() {
-  if ! command -v termux-info >/dev/null
+  if ! is_termux
   then
     echo "This script requires to be run from within Termux." >&2
     exit 2
   fi
+
+  echo "👷 Setting up build environment for Termux"
 
   cd "$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)" || exit 9
 
@@ -79,6 +91,8 @@ build_termux() {
       arch=arm
       ;;
   esac
+
+  echo "👷 Starting build of pkp (${arch}-termux)"
 
   LD_LIBRARY_PATH="${PREFIX}/lib" \
     pyinstaller -F -n "pkp_${arch}_termux" ./pkp.py
