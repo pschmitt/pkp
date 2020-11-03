@@ -42,7 +42,6 @@ jobs:
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           ./build.sh "${{ matrix.arch }}"
-          sudo mv ./dist/pkp ./dist/pkp_${{ matrix.arch }}
 
       - name: Upload binary artifact (dynamic)
         uses: actions/upload-artifact@v2
