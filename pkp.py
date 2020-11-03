@@ -16,6 +16,7 @@ LOGGER = logging.getLogger(__name__)
 ARGPARSE_GET = ["get", "g", "entry", "e"]
 ARGPARSE_LIST = ["list", "ls", "l"]
 ARGPARSE_SEARCH = ["search", "find", "fd", "se", "f", "s"]
+ARGPARSE_SHOW = ["show", "display", "sh", "ds"]
 
 
 def parse_args():
@@ -66,6 +67,18 @@ def parse_args():
     )
     parser_get.add_argument("VALUE")
 
+    parser_show = subparsers.add_parser(
+        "show", aliases=ARGPARSE_SHOW[1:], help="Show entry data"
+    )
+    parser_show.add_argument(
+        "-a",
+        "--show-all",
+        action="store_true",
+        default=False,
+        help="Don't skip attributes which are not set",
+    )
+    parser_show.add_argument("VALUE")
+
     parser_search = subparsers.add_parser(
         "search", aliases=ARGPARSE_SEARCH[1:], help="Find entries"
     )
@@ -91,6 +104,21 @@ def print_entry(entry, file=sys.stdout):
     )
 
 
+def print_field(label, field, skip_empty=False, file=sys.stdout):
+    if not field:
+        if skip_empty:
+            LOGGER.debug(f"Skipping display of field {label}")
+            return
+        field = f"{colorama.Fore.MAGENTA}**EMPTY**"
+    print(
+        f"{colorama.Fore.GREEN}{label}:"
+        f"{colorama.Style.RESET_ALL} "
+        f"{colorama.Fore.LIGHTBLACK_EX}{field}"
+        f"{colorama.Style.RESET_ALL}",
+        file=file,
+    )
+
+
 def ls(kp, args):
     regex = not args.raw
     ignorecase = not args.case_sensitive
@@ -111,14 +139,11 @@ def ls(kp, args):
         # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
 
 
-def get(kp, args):
+def _get_entry(kp, args):
     regex = not args.raw
     ignorecase = not args.case_sensitive
     flags = "i" if ignorecase else ""
 
-    LOGGER.debug(
-        f"Get entry {args.VALUE} ({args.attribute})",
-    )
     if is_uuid(args.VALUE):
         LOGGER.debug(
             "Get entry by UUID",
@@ -137,8 +162,31 @@ def get(kp, args):
         entry = kp.find_entries_by_path(args.VALUE, regex=regex, flags=flags)
     if not entry:
         print("No entry found", file=sys.stderr)
+    return entry
+
+
+def get(kp, args):
+    LOGGER.debug(
+        f"Get entry {args.VALUE} ({args.attribute})",
+    )
+    entry = _get_entry(kp, args)
+    if not entry:
         return 3
     print(getattr(entry, args.attribute))
+
+
+def show(kp, args):
+    LOGGER.debug(f"Show entry {args.VALUE}")
+    skip_empty = not args.show_all
+    entry = _get_entry(kp, args)
+    if not entry:
+        return 3
+    print_entry(entry)
+    print_field("Path", entry.path)
+    print_field("Username", entry.username)
+    print_field("Password", entry.password)
+    print_field("Notes", entry.notes, skip_empty=skip_empty)
+    print_field("Attachments", entry.attachments, skip_empty=skip_empty)
 
 
 def search(kp, args):
@@ -194,6 +242,10 @@ def main():
         return get(kp, args)
     elif args.action in ARGPARSE_SEARCH:
         return search(kp, args)
+    elif args.action in ARGPARSE_SHOW:
+        return show(kp, args)
+    else:
+        LOGGER.error(f"Unknown action: {args.action}")
 
 
 if __name__ == "__main__":
