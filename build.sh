@@ -41,6 +41,8 @@ build() {
     return 1
   fi
 
+  echo "👷 Starting build of pkp (${arch})"
+
   cd "$(readlink -f "$(dirname "$0")")" || exit 9
   docker run --rm \
     -v "$PWD:/app" \
@@ -48,7 +50,7 @@ build() {
     -e STATICX_ARGS="--strip" \
     -e STATICX_OUTPUT="./dist/pkp_${arch}_static" \
     "pschmitt/pyinstaller@${digest}" \
-    pkp.py
+    -n "pkp_${arch}" pkp.py
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]

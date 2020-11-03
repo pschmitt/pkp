@@ -15,8 +15,8 @@ jobs:
         arch:
           - amd64
           - 386
-          # - arm
-          # - arm64
+          - arm
+          - arm64
           # - ppc64le
           # - s390x
     steps:
@@ -84,8 +84,8 @@ jobs:
         arch:
           - amd64
           - 386
-          # - arm
-          # - arm64
+          - arm
+          - arm64
           # - ppc64le
           # - s390x
     steps:
