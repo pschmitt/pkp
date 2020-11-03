@@ -1,0 +1,4 @@
+pyelftools==0.27
+pyinstaller==4.0
+pyinstaller-hooks-contrib==2020.10
+staticx==0.12.0
