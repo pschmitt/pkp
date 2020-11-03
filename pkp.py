@@ -185,6 +185,7 @@ def show(kp, args):
     print_field("Path", entry.path)
     print_field("Username", entry.username)
     print_field("Password", entry.password)
+    print_field("URL", entry.url, skip_empty=skip_empty)
     print_field("Notes", entry.notes, skip_empty=skip_empty)
     print_field("Attachments", entry.attachments, skip_empty=skip_empty)
 
