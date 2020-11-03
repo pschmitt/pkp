@@ -26,7 +26,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
         with:
-         platforms: all
+          platforms: all
 
       - name: Set up Docker Buildx
         id: buildx
@@ -43,7 +43,13 @@ jobs:
           export DOCKER_CLI_EXPERIMENTAL=enabled
           ./build.sh "${{ matrix.arch }}"
 
-      - name: Upload binary artifact
+      - name: Upload binary artifact (dynamic)
+        uses: actions/upload-artifact@v2
+        with:
+          name: pkp_${{ matrix.arch }}
+          path: ./dist/pkp
+
+      - name: Upload binary artifact (static)
         uses: actions/upload-artifact@v2
         with:
           name: pkp_${{ matrix.arch }}_static
@@ -88,6 +94,16 @@ jobs:
           path: ./
 
       - name: Upload Release Asset (${{ matrix.arch }})
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./pkp_${{ matrix.arch }}/pkp_${{ matrix.arch }}
+          asset_name: pkp_${{ matrix.arch }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (${{ matrix.arch }}-static)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
