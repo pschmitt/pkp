@@ -6,7 +6,6 @@ __version__ = "0.5.0"
 import argparse
 import logging
 import re
-import os
 import sys
 
 import pykeepass
@@ -20,8 +19,6 @@ ARGPARSE_SEARCH = ["search", "find", "fd", "se", "f", "s"]
 
 
 def parse_args():
-    import argparse
-
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-V", "--version", action="version", version=f"{__version__}"
