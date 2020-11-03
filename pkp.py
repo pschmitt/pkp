@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument("-p", "--password", required=False, help="Password")
     parser.add_argument("-F", "--keyfile", required=False, help="Key file")
     parser.add_argument(
-        "-i", "--ignorecase", action="store_true", default=False, required=False
+        "-I", "--case-sensitive", action="store_true", default=False, required=False
     )
     parser.add_argument(
         "-r",
@@ -78,7 +78,9 @@ if __name__ == "__main__":
         LOGGER.debug(f"ARGS: {args}")
 
     regex = not args.raw
-    flags = "i" if args.ignorecase else ""
+    ignorecase = not args.case_sensitive
+    flags = "i" if ignorecase else ""
+
     pkp = pykeepass.PyKeePass(
         filename=args.file, password=args.password, keyfile=args.keyfile
     )
@@ -88,7 +90,7 @@ if __name__ == "__main__":
         if args.PATH:
             regex_path = re.compile(
                 args.PATH if regex else f"^{args.PATH}.*",
-                re.IGNORECASE if args.ignorecase else 0,
+                re.IGNORECASE if ignorecase else 0,
             )
 
             LOGGER.debug(
@@ -128,7 +130,7 @@ if __name__ == "__main__":
         )
         regex_search = re.compile(
             args.VALUE if regex else f"^{args.VALUE}.*",
-            re.IGNORECASE if args.ignorecase else 0,
+            re.IGNORECASE if ignorecase else 0,
         )
 
         LOGGER.debug(
