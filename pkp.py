@@ -25,7 +25,11 @@ def parse_args():
     parser.add_argument("-p", "--password", required=False, help="Password")
     parser.add_argument("-F", "--keyfile", required=False, help="Key file")
     parser.add_argument(
-        "-I", "--case-sensitive", action="store_true", default=False, required=False
+        "-I",
+        "--case-sensitive",
+        action="store_true",
+        default=False,
+        required=False,
     )
     parser.add_argument(
         "-r",
