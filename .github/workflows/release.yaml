@@ -42,7 +42,7 @@ jobs:
         run: |
           export DOCKER_CLI_EXPERIMENTAL=enabled
           ./build.sh "${{ matrix.arch }}"
-          mv ./dist/pkp ./dist/pkp_${{ matrix.arch }}
+          sudo mv ./dist/pkp ./dist/pkp_${{ matrix.arch }}
 
       - name: Upload binary artifact (dynamic)
         uses: actions/upload-artifact@v2
@@ -93,10 +93,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: ./
-
-      - run: ls -al .
-      - run: ls -al ./pkp_amd64 || true
-      - run: ls -al ./pkp_amd64_static || true
 
       - name: Upload Release Asset (${{ matrix.arch }})
         uses: actions/upload-release-asset@v1
