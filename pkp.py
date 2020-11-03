@@ -130,10 +130,12 @@ if __name__ == "__main__":
         )
         if is_uuid(args.VALUE):
             LOGGER.debug(
-                f"Get entry by UUID",
+                "Get entry by UUID",
             )
             # FIXME
-            # entry = pkp.find_entries_by_uuid(uuid=args.VALUE, regex=regex, flags=flags)
+            # entry = pkp.find_entries_by_uuid(
+            #     uuid=args.VALUE, regex=regex, flags=flags
+            # )
             entries = [
                 x
                 for x in pkp.entries
