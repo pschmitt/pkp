@@ -14,7 +14,9 @@ def parse_args():
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version", action="store_true", required=False)
+    parser.add_argument(
+        "-V", "--version", action="version", version=f"{__version__}"
+    )
     parser.add_argument("-f", "--file", help="KeePass DB file", required=True)
     parser.add_argument("-p", "--password", required=False, help="Password")
     parser.add_argument("-F", "--keyfile", required=False, help="Key file")
@@ -39,8 +41,8 @@ def parse_args():
         "-a", "--attribute", default="password", help="Attribute to fetch"
     )
     parser.add_argument(
-        "--path",
         "-P",
+        "--path",
         action="store_true",
         default=False,
         help="Search by path instead of entry title",
@@ -51,9 +53,6 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
-    if args.version:
-        print(__version__)
-        sys.exit(0)
     regex = not args.raw
     flags = "i" if args.ignorecase else ""
     pkp = pykeepass.PyKeePass(
