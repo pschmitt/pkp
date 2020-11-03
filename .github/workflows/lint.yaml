@@ -51,8 +51,8 @@ jobs:
 
       - name: Check requirements
         run: |
-          poetry export -f requirements.txt -o requirements-ci.txt --without-hashes
-          poetry export -f requirements.txt --dev -o requirements-ci-dev.txt --without-hashes
+          poetry export -f requirements.txt --without-hashes -o requirements-ci.txt
+          poetry export -f requirements.txt --without-hashes --dev -o requirements-ci-dev.txt
           diff ./requirements.txt ./requirements-ci.txt
           diff ./requirements-dev.txt ./requirements-ci-dev.txt
 
