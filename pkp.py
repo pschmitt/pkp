@@ -91,7 +91,80 @@ def print_entry(entry, file=sys.stdout):
     )
 
 
-if __name__ == "__main__":
+def ls(kp, args):
+    entries = kp.entries
+    if hasattr(args, "PATH") and args.PATH:
+        regex_path = re.compile(
+            args.PATH if regex else f"^{args.PATH}.*",
+            re.IGNORECASE if ignorecase else 0,
+        )
+
+        LOGGER.debug(
+            f"Searching for entries whose path match {regex_path}",
+        )
+        entries = [x for x in entries if re.match(regex_path, x.path)]
+    for entry in entries:
+        print_entry(entry)
+        # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+
+
+def get(kp, args):
+    LOGGER.debug(
+        f"Get entry {args.VALUE} ({args.attribute})",
+    )
+    if is_uuid(args.VALUE):
+        LOGGER.debug(
+            "Get entry by UUID",
+        )
+        # FIXME
+        # entry = kp.find_entries_by_uuid(
+        #     uuid=args.VALUE, regex=regex, flags=flags
+        # )
+        entries = [
+            x for x in kp.entries if str(x.uuid).lower() == args.VALUE.lower()
+        ]
+        if entries:
+            entry = entries[0]
+            LOGGER.debug(f'Found entry: {entry.title} at "{entry.path}"')
+    else:
+        entry = kp.find_entries_by_path(args.VALUE, regex=regex, flags=flags)
+    if not entry:
+        print("No entry found", file=sys.stderr)
+        return 3
+    print(getattr(entry, args.attribute))
+
+
+def search(kp, args):
+    LOGGER.debug(
+        f"Search entries matching {args.attribute} = {args.VALUE}",
+    )
+    regex_search = re.compile(
+        args.VALUE if regex else f"^{args.VALUE}.*",
+        re.IGNORECASE if ignorecase else 0,
+    )
+
+    LOGGER.debug(
+        f"Regex: {regex_search}",
+    )
+    entries = [
+        x
+        for x in kp.entries
+        if re.match(regex_search, str(getattr(x, args.attribute)))
+    ]
+
+    if not entries:
+        print(
+            f"No entry matching {args.attribute} = {args.VALUE} found",
+            file=sys.stderr,
+        )
+        return 3
+
+    for entry in entries:
+        print_entry(entry)
+        # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+
+
+def main():
     args = parse_args()
 
     colorama.init()
@@ -105,78 +178,17 @@ if __name__ == "__main__":
     ignorecase = not args.case_sensitive
     flags = "i" if ignorecase else ""
 
-    pkp = pykeepass.PyKeePass(
+    kp = pykeepass.PyKeePass(
         filename=args.file, password=args.password, keyfile=args.keyfile
     )
 
     if args.action in ARGPARSE_LIST or not args.action:  # Default to list
-        entries = pkp.entries
-        if hasattr(args, "PATH") and args.PATH:
-            regex_path = re.compile(
-                args.PATH if regex else f"^{args.PATH}.*",
-                re.IGNORECASE if ignorecase else 0,
-            )
-
-            LOGGER.debug(
-                f"Searching for entries whose path match {regex_path}",
-            )
-            entries = [x for x in entries if re.match(regex_path, x.path)]
-        for entry in entries:
-            print_entry(entry)
-            # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+        return ls(kp, args)
     elif args.action in ARGPARSE_GET:
-        LOGGER.debug(
-            f"Get entry {args.VALUE} ({args.attribute})",
-        )
-        if is_uuid(args.VALUE):
-            LOGGER.debug(
-                "Get entry by UUID",
-            )
-            # FIXME
-            # entry = pkp.find_entries_by_uuid(
-            #     uuid=args.VALUE, regex=regex, flags=flags
-            # )
-            entries = [
-                x
-                for x in pkp.entries
-                if str(x.uuid).lower() == args.VALUE.lower()
-            ]
-            if entries:
-                entry = entries[0]
-                LOGGER.debug(f'Found entry: {entry.title} at "{entry.path}"')
-        else:
-            entry = pkp.find_entries_by_path(
-                args.VALUE, regex=regex, flags=flags
-            )
-        if not entry:
-            print("No entry found", file=sys.stderr)
-            sys.exit(3)
-        print(getattr(entry, args.attribute))
+        return get(kp, args)
     elif args.action in ARGPARSE_SEARCH:
-        LOGGER.debug(
-            f"Search entries matching {args.attribute} = {args.VALUE}",
-        )
-        regex_search = re.compile(
-            args.VALUE if regex else f"^{args.VALUE}.*",
-            re.IGNORECASE if ignorecase else 0,
-        )
+        return search(kp, args)
 
-        LOGGER.debug(
-            f"Regex: {regex_search}",
-        )
-        entries = [
-            x
-            for x in pkp.entries
-            if re.match(regex_search, str(getattr(x, args.attribute)))
-        ]
 
-        if not entries:
-            print(
-                f"No entry matching {args.attribute} = {args.VALUE} found",
-                file=sys.stderr,
-            )
-            sys.exit(3)
-
-        for entry in entries:
-            print_entry(entry)
-            # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+if __name__ == "__main__":
+    sys.exit(main())
