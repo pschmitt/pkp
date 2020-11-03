@@ -10,6 +10,7 @@ import os
 import sys
 
 import pykeepass
+import colorama
 
 LOGGER = logging.getLogger(__name__)
 
@@ -83,8 +84,20 @@ def is_uuid(name):
     return re.match(r"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$", name) is not None
 
 
+def print_entry(entry, file=sys.stdout):
+    print(
+        f"{colorama.Fore.GREEN}{entry.path}"
+        f"{colorama.Style.RESET_ALL} "
+        f"{colorama.Fore.LIGHTBLACK_EX}[uuid: {entry.uuid}]"
+        f"{colorama.Style.RESET_ALL}",
+        file=file,
+    )
+
+
 if __name__ == "__main__":
     args = parse_args()
+
+    colorama.init()
 
     if args.debug:
         logging.basicConfig()
@@ -112,7 +125,8 @@ if __name__ == "__main__":
             )
             entries = [x for x in entries if re.match(regex_path, x.path)]
         for entry in entries:
-            print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+            print_entry(entry)
+            # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
     elif args.action in ARGPARSE_GET:
         LOGGER.debug(
             f"Get entry {args.VALUE} ({args.attribute})",
@@ -165,4 +179,5 @@ if __name__ == "__main__":
             sys.exit(3)
 
         for entry in entries:
-            print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+            print_entry(entry)
+            # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
