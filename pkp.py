@@ -13,6 +13,10 @@ import pykeepass
 
 LOGGER = logging.getLogger(__name__)
 
+ARGPARSE_GET = ["get", "g", "entry", "e"]
+ARGPARSE_LIST = ["list", "ls", "l"]
+ARGPARSE_SEARCH = ["search", "find", "fd", "se", "f", "s"]
+
 
 def parse_args():
     import argparse
@@ -51,20 +55,26 @@ def parse_args():
 
     subparsers = parser.add_subparsers(dest="action", help="sub-command help")
 
-    parser_ls = subparsers.add_parser("ls", help="List entries (by path)")
+    parser_ls = subparsers.add_parser(
+        "list", aliases=ARGPARSE_LIST[1:], help="List entries (by path)"
+    )
     parser_ls.add_argument("PATH", nargs="?")
 
-    parser_get = subparsers.add_parser("get", help="Get entries")
+    parser_get = subparsers.add_parser(
+        "get", aliases=ARGPARSE_GET[1:], help="Get entries"
+    )
     parser_get.add_argument(
         "-a", "--attribute", default="password", help="Attribute to fetch"
     )
     parser_get.add_argument("VALUE")
 
-    parser_find = subparsers.add_parser("find", help="Find entries")
-    parser_find.add_argument(
+    parser_search = subparsers.add_parser(
+        "search", aliases=ARGPARSE_SEARCH[1:], help="Find entries"
+    )
+    parser_search.add_argument(
         "-a", "--attribute", default="title", help="Attribute to fetch"
     )
-    parser_find.add_argument("VALUE")
+    parser_search.add_argument("VALUE")
 
     return parser.parse_args()
 
@@ -89,21 +99,21 @@ if __name__ == "__main__":
         filename=args.file, password=args.password, keyfile=args.keyfile
     )
 
-    if args.action == "ls":
+    if args.action in ARGPARSE_LIST or not args.action:  # Default to list
         entries = pkp.entries
-        if args.PATH:
+        if hasattr(args, "PATH") and args.PATH:
             regex_path = re.compile(
                 args.PATH if regex else f"^{args.PATH}.*",
                 re.IGNORECASE if ignorecase else 0,
             )
 
             LOGGER.debug(
-                f"Searching for entries matching {regex_path}",
+                f"Searching for entries whose path match {regex_path}",
             )
             entries = [x for x in entries if re.match(regex_path, x.path)]
         for entry in entries:
             print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
-    elif args.action == "get":
+    elif args.action in ARGPARSE_GET:
         LOGGER.debug(
             f"Get entry {args.VALUE} ({args.attribute})",
         )
@@ -129,9 +139,9 @@ if __name__ == "__main__":
             print("No entry found", file=sys.stderr)
             sys.exit(3)
         print(getattr(entry, args.attribute))
-    elif args.action == "find":
+    elif args.action in ARGPARSE_SEARCH:
         LOGGER.debug(
-            f"Find entries matching {args.attribute} = {args.VALUE}",
+            f"Search entries matching {args.attribute} = {args.VALUE}",
         )
         regex_search = re.compile(
             args.VALUE if regex else f"^{args.VALUE}.*",
