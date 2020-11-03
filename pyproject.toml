@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pkp"
-version = "0.2"
+version = "0.3.1"
 description = ""
 authors = ["Philipp Schmitt <philipp@schmitt.co>"]
 license = "GPL-3.0-only"
