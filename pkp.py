@@ -4,10 +4,14 @@
 __version__ = "0.3.2"
 
 import argparse
+import logging
+import re
 import os
 import sys
 
 import pykeepass
+
+LOGGER = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -30,6 +34,9 @@ def parse_args():
         default=False,
         help="Disable REGEX path search",
     )
+    parser.add_argument(
+        "-D", "--debug", action="store_true", default=False, help="Debug mode"
+    )
     # parser.add_argument(
     #     "-v",
     #     "--verbose",
@@ -37,73 +44,107 @@ def parse_args():
     #     default=False,
     #     help="Verbose output mode"
     # )
-    parser.add_argument(
+
+    subparsers = parser.add_subparsers(dest="action", help="sub-command help")
+
+    parser_ls = subparsers.add_parser("ls", help="List entries (by path)")
+    parser_ls.add_argument("PATH", nargs="?")
+
+    parser_get = subparsers.add_parser("get", help="Get entries")
+    parser_get.add_argument(
         "-a", "--attribute", default="password", help="Attribute to fetch"
     )
-    parser.add_argument(
-        "-P",
-        "--path",
-        action="store_true",
-        default=False,
-        help="Search by path instead of entry title",
+    parser_get.add_argument("VALUE")
+
+    parser_find = subparsers.add_parser("find", help="Find entries")
+    parser_find.add_argument(
+        "-a", "--attribute", default="title", help="Attribute to fetch"
     )
-    parser.add_argument("search_criteria", default="", nargs="?")
+    parser_find.add_argument("VALUE")
+
     return parser.parse_args()
+
+
+def is_uuid(name):
+    return re.match(r"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$", name) is not None
 
 
 if __name__ == "__main__":
     args = parse_args()
+
+    if args.debug:
+        logging.basicConfig()
+        LOGGER.setLevel(logging.DEBUG)
+        LOGGER.debug(f"ARGS: {args}")
+
     regex = not args.raw
     flags = "i" if args.ignorecase else ""
     pkp = pykeepass.PyKeePass(
         filename=args.file, password=args.password, keyfile=args.keyfile
     )
 
-    if args.path:
-        entry = pkp.find_entries_by_path(
-            args.search_criteria, regex=regex, flags=flags
+    if args.action == "ls":
+        entries = pkp.entries
+        if args.PATH:
+            regex_path = re.compile(
+                args.PATH if regex else f"^{args.PATH}.*",
+                re.IGNORECASE if args.ignorecase else 0,
+            )
+
+            LOGGER.debug(
+                f"Searching for entries matching {regex_path}",
+            )
+            entries = [x for x in entries if re.match(regex_path, x.path)]
+        for entry in entries:
+            print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+    elif args.action == "get":
+        LOGGER.debug(
+            f"Get entry {args.VALUE} ({args.attribute})",
         )
+        if is_uuid(args.VALUE):
+            LOGGER.debug(
+                f"Get entry by UUID",
+            )
+            # entry = pkp.find_entries_by_uuid(uuid=args.VALUE, regex=regex, flags=flags)
+            entries = [
+                x
+                for x in pkp.entries
+                if str(x.uuid).lower() == args.VALUE.lower()
+            ]
+            if entries:
+                entry = entries[0]
+                LOGGER.debug(f'Found entry: {entry.title} at "{entry.path}"')
+        else:
+            entry = pkp.find_entries_by_path(
+                args.VALUE, regex=regex, flags=flags
+            )
         if not entry:
-            print(
-                f"Failed to find entry: {args.search_criteria}", file=sys.stderr
-            )
-            group = pkp.find_groups_by_path(
-                args.search_criteria, regex=regex, flags=flags
-            )
-            if not group:
-                group = pkp.find_groups_by_path(
-                    os.path.dirname(args.search_criteria),
-                    regex=regex,
-                    flags=flags,
-                )
-            if group:
-                print("Did you mean one of the following?", file=sys.stderr)
-                for group in sorted(
-                    group.subgroups, key=lambda x: x.path.lower()
-                ):
-                    print(f"- {group.path}", file=sys.stderr)
-                for entry in sorted(
-                    group.entries, key=lambda x: x.path.lower()
-                ):
-                    print(f"- {entry.path}", file=sys.stderr)
+            print("No entry found", file=sys.stderr)
             sys.exit(3)
         print(getattr(entry, args.attribute))
-    else:
-        criteria = (
-            f".*{args.search_criteria}.*" if regex else args.search_criteria
+    elif args.action == "find":
+        LOGGER.debug(
+            f"Find entries matching {args.attribute} = {args.VALUE}",
         )
-        entries = pkp.find_entries(title=criteria, regex=regex, flags=flags)
-        if len(entries) == 0:
-            print("No entries found", file=sys.stderr)
-            sys.exit(3)
-        elif len(entries) == 1:
+        regex_search = re.compile(
+            args.VALUE if regex else f"^{args.VALUE}.*",
+            re.IGNORECASE if args.ignorecase else 0,
+        )
+
+        LOGGER.debug(
+            f"Regex: {regex_search}",
+        )
+        entries = [
+            x
+            for x in pkp.entries
+            if re.match(regex_search, str(getattr(x, args.attribute)))
+        ]
+
+        if not entries:
             print(
-                f"Found single matching entry: {entries[0].path}",
+                f"No entry matching {args.attribute} = {args.VALUE} found",
                 file=sys.stderr,
             )
-            print(getattr(entries[0], args.attribute))
-        else:
-            print("Multiple entries found:", file=sys.stderr)
-            for entry in entries:
-                print(f"- {entry.path}", file=sys.stderr)
-            sys.exit(4)
+            sys.exit(3)
+        for entry in entries:
+            print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
