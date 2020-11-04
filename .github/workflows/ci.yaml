@@ -98,7 +98,7 @@ jobs:
 
       - name: Black
         run: |
-          black --check --line-length=80 .
+          black --check --config pyproject.toml .
 
   readme:
     runs-on: ubuntu-latest
