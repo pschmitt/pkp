@@ -62,7 +62,7 @@ optional arguments:
                         Password
   -F KEYFILE, --keyfile KEYFILE
                         Key file
-  -I, --case-sensitive
+  -I, --case-sensitive  Case sensitive matching
   -r, --raw             Disable REGEX path search
   -D, --debug           Debug mode
 ```
