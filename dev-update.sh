@@ -101,6 +101,8 @@ update_version() {
   then
     git tag -s "$new_version" -m "$new_version"
     git push --follow-tags
+
+    poetry publish --build
   fi
 }
 
