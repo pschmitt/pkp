@@ -103,10 +103,15 @@ build_termux() {
       ;;
   esac
 
+  local pkp_bin="pkp-${version}-${arch}-termux"
   echo "👷 Starting build of pkp (${arch}-termux)"
 
   LD_LIBRARY_PATH="${PREFIX}/lib" \
-    pyinstaller -F -n "pkp-${version}-${arch}-termux" ./pkp.py
+    pyinstaller -F -n "$pkp_bin" ./pkp.py
+
+  local destdir=${DEST:-/sdcard/Download}
+  echo "👷 Moving binary file to ${destdir}"
+  mv "./dist/${pkp_bin}" "$destdir"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
