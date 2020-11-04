@@ -38,7 +38,7 @@ build() {
   if is_termux
   then
     build_termux
-    return
+    return "$?"
   fi
 
   local arch="${1:-amd64}"
@@ -67,7 +67,7 @@ build_termux() {
   if ! is_termux
   then
     echo "This script requires to be run from within Termux." >&2
-    exit 2
+    return 2
   fi
 
   echo "👷 Setting up build environment for Termux"
@@ -81,6 +81,15 @@ build_termux() {
   pip install -U pip wheel
   # pip install -r requirements.txt
   pip install -r requirements-dev.txt
+
+  local version
+  version="$(python -c "import pkp; print(pkp.__version__)")"
+
+  if [[ -z "$version" ]]
+  then
+    echo "Failed to determine current version" >&2
+    return 7
+  fi
 
   local arch
   arch="$(uname -m)"
@@ -97,7 +106,7 @@ build_termux() {
   echo "👷 Starting build of pkp (${arch}-termux)"
 
   LD_LIBRARY_PATH="${PREFIX}/lib" \
-    pyinstaller -F -n "pkp-${arch}-termux" ./pkp.py
+    pyinstaller -F -n "pkp-${version}-${arch}-termux" ./pkp.py
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
