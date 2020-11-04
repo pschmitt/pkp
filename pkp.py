@@ -74,7 +74,7 @@ def parse_args():
     parser_get.add_argument(
         "-a", "--attribute", default="password", help="Attribute to fetch"
     )
-    parser_get.add_argument("VALUE")
+    parser_get.add_argument("VALUE", nargs="+")
 
     parser_show = subparsers.add_parser(
         "show", aliases=ARGPARSE_SHOW[1:], help="Show entry data"
@@ -86,7 +86,7 @@ def parse_args():
         default=False,
         help="Don't skip attributes which are not set",
     )
-    parser_show.add_argument("VALUE")
+    parser_show.add_argument("VALUE", nargs="+")
 
     parser_search = subparsers.add_parser(
         "search", aliases=ARGPARSE_SEARCH[1:], help="Find entries"
@@ -94,7 +94,7 @@ def parse_args():
     parser_search.add_argument(
         "-a", "--attribute", default="title", help="Attribute to fetch"
     )
-    parser_search.add_argument("VALUE")
+    parser_search.add_argument("VALUE", nargs="+")
 
     return parser.parse_args()
 
@@ -163,31 +163,33 @@ def _get_entry(kp, args):
     ignorecase = not args.case_sensitive
     flags = "i" if ignorecase else ""
     regex = not args.raw
+    value = " ".join(args.VALUE)
 
-    if is_uuid(args.VALUE):
+    if is_uuid(value):
         LOGGER.debug(
             "Get entry by UUID",
         )
         # FIXME
         # entry = kp.find_entries_by_uuid(
-        #     uuid=args.VALUE, regex=regex, flags=flags
+        #     uuid=value, regex=regex, flags=flags
         # )
         entries = [
-            x for x in kp.entries if str(x.uuid).lower() == args.VALUE.lower()
+            x for x in kp.entries if str(x.uuid).lower() == value.lower()
         ]
         if entries:
             entry = entries[0]
             LOGGER.debug(f'Found entry: {entry.title} at "{entry.path}"')
     else:
-        entry = kp.find_entries_by_path(args.VALUE, regex=regex, flags=flags)
+        entry = kp.find_entries_by_path(value, regex=regex, flags=flags)
     if not entry:
         print_error("No entry found", color=color)
     return entry
 
 
 def get(kp, args):
+    value = " ".join(args.VALUE)
     LOGGER.debug(
-        f"Get entry {args.VALUE} ({args.attribute})",
+        f"Get entry {value} (attr={args.attribute})",
     )
     entry = _get_entry(kp, args)
     if not entry:
@@ -196,9 +198,12 @@ def get(kp, args):
 
 
 def show(kp, args):
-    LOGGER.debug(f"Show entry {args.VALUE}")
+    value = " ".join(args.VALUE)
     color = not args.no_color
     skip_empty = not args.show_all
+
+    LOGGER.debug(f"Show entry {value}")
+
     entry = _get_entry(kp, args)
     if not entry:
         return 3
@@ -217,12 +222,13 @@ def search(kp, args):
     color = not args.no_color
     ignorecase = not args.case_sensitive
     regex = not args.raw
+    value = " ".join(args.VALUE)
 
     LOGGER.debug(
-        f"Search entries matching {args.attribute} = {args.VALUE}",
+        f"Search entries matching {args.attribute} = {value}",
     )
     regex_search = re.compile(
-        args.VALUE if regex else f"^{args.VALUE}.*",
+        value if regex else f"^{value}.*",
         re.IGNORECASE if ignorecase else 0,
     )
 
@@ -237,7 +243,7 @@ def search(kp, args):
 
     if not entries:
         print_error(
-            f"No entry matching {args.attribute} = {args.VALUE} found",
+            f"No entry matching {args.attribute} = {value} found",
             color=color,
         )
         return 3
