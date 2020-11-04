@@ -43,7 +43,7 @@ Just run `pkp --help`. You'll get it:
 
 <!-- PKP_HELP -->
 ```shell
-usage: pkp.py [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-D]
+usage: pkp.py [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-C] [-D]
               {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
               ...
 
@@ -67,6 +67,7 @@ optional arguments:
                         Key file
   -I, --case-sensitive  Case sensitive matching
   -r, --raw             Disable REGEX path search
+  -C, --no-color        Disable colored output
   -D, --debug           Debug mode
 ```
 <!-- PKP_HELP_END -->
