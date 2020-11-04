@@ -98,7 +98,7 @@ jobs:
 
       - name: Black
         run: |
-          black --check --config pyproject.toml .
+          black --config pyproject.toml --check --diff --verbose .
 
   readme:
     runs-on: ubuntu-latest
