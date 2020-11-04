@@ -103,6 +103,15 @@ def is_uuid(name):
     return re.match(r"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$", name) is not None
 
 
+def print_error(message, color=True, file=sys.stderr):
+    print(
+        f"{colorama.Fore.RED}{message}{colorama.Style.RESET_ALL}"
+        if color
+        else message,
+        file=file,
+    )
+
+
 def print_entry(entry, color=True, file=sys.stdout):
     print(
         f"{colorama.Fore.GREEN}{entry.path}"
@@ -150,9 +159,10 @@ def ls(kp, args):
 
 
 def _get_entry(kp, args):
-    regex = not args.raw
+    color = not args.no_color
     ignorecase = not args.case_sensitive
     flags = "i" if ignorecase else ""
+    regex = not args.raw
 
     if is_uuid(args.VALUE):
         LOGGER.debug(
@@ -171,7 +181,7 @@ def _get_entry(kp, args):
     else:
         entry = kp.find_entries_by_path(args.VALUE, regex=regex, flags=flags)
     if not entry:
-        print("No entry found", file=sys.stderr)
+        print_error("No entry found", color=color)
     return entry
 
 
@@ -204,8 +214,9 @@ def show(kp, args):
 
 
 def search(kp, args):
-    regex = not args.raw
+    color = not args.no_color
     ignorecase = not args.case_sensitive
+    regex = not args.raw
 
     LOGGER.debug(
         f"Search entries matching {args.attribute} = {args.VALUE}",
@@ -225,15 +236,14 @@ def search(kp, args):
     ]
 
     if not entries:
-        print(
+        print_error(
             f"No entry matching {args.attribute} = {args.VALUE} found",
-            file=sys.stderr,
+            color=color,
         )
         return 3
 
     for entry in entries:
         print_entry(entry)
-        # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
 
 
 def main():
@@ -262,5 +272,9 @@ def main():
         LOGGER.error(f"Unknown action: {args.action}")
 
 
-if __name__ == "__main__":
+def cli_main():
     sys.exit(main())
+
+
+if __name__ == "__main__":
+    cli_main()
