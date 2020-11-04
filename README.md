@@ -2,6 +2,7 @@
 
 `pkp` ([Pronunciation](https://www.youtube.com/watch?v=9c0rNjyVbT8)) is a 
 simple CLI tool to query KeePass databases from CLI.
+
 It's built on the awesome 
 [pykeepass library](https://github.com/libkeepass/pykeepass).
 
