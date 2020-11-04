@@ -1,4 +1,4 @@
-# pkp ⚡⚡
+# 😸 pkp ⚡⚡
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/pschmitt/pkp)](https://github.com/pschmitt/pkp/releases/latest)
 [![CI](https://github.com/pschmitt/pkp/workflows/CI/badge.svg)](https://github.com/pschmitt/pkp/actions?query=workflow%3A%22CI%22)
