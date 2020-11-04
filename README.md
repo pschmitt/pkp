@@ -40,6 +40,16 @@ The easiest way to start would be to check out the
 }
 ```
 
+## From pypi
+
+```shell
+# Recommended
+pipx install pkp
+
+# Boring alternative
+pip3 install --user pkp
+```
+
 # Usage
 
 Just run `pkp --help`. You'll get it:
