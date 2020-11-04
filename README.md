@@ -16,6 +16,9 @@ It's built on the awesome
 The easiest way to start would be to check out the
 [latest release](https://github.com/pschmitt/pkp/releases/latest).
 
+**NOTE**: The `-termux` binaries are manually built on Termux with 
+`./build.sh termux` (no CI).
+
 ## zinit
 
 ```zsh
