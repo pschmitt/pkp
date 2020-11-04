@@ -66,6 +66,4 @@ then
       exit 2
       ;;
   esac
-
-  
 fi
