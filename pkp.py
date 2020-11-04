@@ -8,8 +8,8 @@ import logging
 import re
 import sys
 
-import pykeepass
 import colorama
+import pykeepass
 
 LOGGER = logging.getLogger(__name__)
 
