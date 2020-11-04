@@ -43,6 +43,14 @@ def parse_args():
         help="Disable REGEX path search",
     )
     parser.add_argument(
+        "-C",
+        "--no-color",
+        action="store_true",
+        default=False,
+        required=False,
+        help="Disable colored output",
+    )
+    parser.add_argument(
         "-D", "--debug", action="store_true", default=False, help="Debug mode"
     )
     # parser.add_argument(
@@ -95,7 +103,7 @@ def is_uuid(name):
     return re.match(r"^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$", name) is not None
 
 
-def print_entry(entry, file=sys.stdout):
+def print_entry(entry, color=True, file=sys.stdout):
     print(
         f"{colorama.Fore.GREEN}{entry.path}"
         f"{colorama.Style.RESET_ALL} "
@@ -105,23 +113,25 @@ def print_entry(entry, file=sys.stdout):
     )
 
 
-def print_field(label, field, skip_empty=False, file=sys.stdout):
+def print_field(label, field, skip_empty=False, color=True, file=sys.stdout):
     if not field:
         if skip_empty:
             LOGGER.debug(f"Skipping display of field {label}")
             return
-        field = f"{colorama.Fore.MAGENTA}**EMPTY**"
+        field = f"{colorama.Fore.MAGENTA}**EMPTY**" if color else "**EMPTY**"
     print(
-        f"{colorama.Fore.GREEN}{label}:"
-        f"{colorama.Style.RESET_ALL} "
-        f"{colorama.Fore.LIGHTBLACK_EX}{field}"
-        f"{colorama.Style.RESET_ALL}",
+        f"{colorama.Fore.GREEN}{label}:" if color else f"{label}:",
+        f"{colorama.Style.RESET_ALL} " if color else " ",
+        f"{colorama.Fore.LIGHTBLACK_EX}{field}" if color else field,
+        f"{colorama.Style.RESET_ALL}" if color else "",
+        sep="",
         file=file,
     )
 
 
 def ls(kp, args):
     regex = not args.raw
+    color = not args.no_color
     ignorecase = not args.case_sensitive
 
     entries = kp.entries
@@ -136,8 +146,7 @@ def ls(kp, args):
         )
         entries = [x for x in entries if re.match(regex_path, x.path)]
     for entry in entries:
-        print_entry(entry)
-        # print(f"- {entry.path} [uuid: {entry.uuid}]", file=sys.stderr)
+        print_entry(entry, color=color)
 
 
 def _get_entry(kp, args):
@@ -178,17 +187,20 @@ def get(kp, args):
 
 def show(kp, args):
     LOGGER.debug(f"Show entry {args.VALUE}")
+    color = not args.no_color
     skip_empty = not args.show_all
     entry = _get_entry(kp, args)
     if not entry:
         return 3
-    print_entry(entry)
-    print_field("Path", entry.path)
-    print_field("Username", entry.username)
-    print_field("Password", entry.password)
-    print_field("URL", entry.url, skip_empty=skip_empty)
-    print_field("Notes", entry.notes, skip_empty=skip_empty)
-    print_field("Attachments", entry.attachments, skip_empty=skip_empty)
+    print_entry(entry, color=color)
+    print_field("Path", entry.path, color=color)
+    print_field("Username", entry.username, color=color)
+    print_field("Password", entry.password, color=color)
+    print_field("URL", entry.url, skip_empty=skip_empty, color=color)
+    print_field("Notes", entry.notes, skip_empty=skip_empty, color=color)
+    print_field(
+        "Attachments", entry.attachments, skip_empty=skip_empty, color=color
+    )
 
 
 def search(kp, args):
