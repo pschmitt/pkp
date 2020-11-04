@@ -32,7 +32,7 @@ update_readme() {
   # https://stackoverflow.com/a/6287940
   sed -i "/^${marker_start}/,/^${marker_stop}/{/^${marker_start}/!{/^${marker_stop}/!d}}" README.md
 
-  help_md="\`\`\`shell
+  help_md="\`\`\`
 ${usage_str}
 \`\`\`"
 

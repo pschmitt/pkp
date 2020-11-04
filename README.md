@@ -45,7 +45,7 @@ The easiest way to start would be to check out the
 Just run `pkp --help`. You'll get it:
 
 <!-- PKP_HELP -->
-```shell
+```
 usage: pkp.py [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-C] [-D]
               {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
               ...
