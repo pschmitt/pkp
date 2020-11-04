@@ -36,6 +36,34 @@ The easiest way to start would be to check out the
 
 # Usage
 
+Just run `pkp --help`. You'll get it:
+
+<!-- PKP_HELP -->
 ```shell
-pkp --help
+usage: pkp.py [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-D]
+              {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
+              ...
+
+positional arguments:
+  {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
+                        sub-command help
+    list (ls, l)        List entries (by path)
+    get (g, entry, e)   Get entries
+    show (display, sh, ds)
+                        Show entry data
+    search (find, fd, se, f, s)
+                        Find entries
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -V, --version         show program's version number and exit
+  -f FILE, --file FILE  KeePass DB file
+  -p PASSWORD, --password PASSWORD
+                        Password
+  -F KEYFILE, --keyfile KEYFILE
+                        Key file
+  -I, --case-sensitive
+  -r, --raw             Disable REGEX path search
+  -D, --debug           Debug mode
 ```
+<!-- PKP_HELP_END -->
