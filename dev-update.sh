@@ -68,6 +68,12 @@ update_version() {
   then
     # shellcheck disable=2016
     new_version="$(sed -r 's/(.+\.)([0-9]+)/echo \1$((\2 + 1))/e' <<< "$current_version")"
+
+    if [[ -z "$new_version" ]]
+    then
+      echo "Failed to bump version." >&2
+      return 7
+    fi
   fi
 
   if [[ "$current_version" == "$new_version" ]]
@@ -89,6 +95,13 @@ update_version() {
 
   sed -i -r 's/^(version\s?=\s?)".+"/\1"'"${new_version}"'"/' pyproject.toml
   sed -i -r 's/^(__version__\s?=\s?)".+"/\1"'"${new_version}"'"/' pkp.py
+
+  git add pyproject.toml pkp.py
+  if git commit -m "Version $new_version" -e
+  then
+    git tag -s "$new_version" -m "$new_version"
+    git push --follow-tags
+  fi
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
