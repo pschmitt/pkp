@@ -33,6 +33,7 @@ def parse_args():
         action="store_true",
         default=False,
         required=False,
+        help="Case sensitive matching",
     )
     parser.add_argument(
         "-r",
