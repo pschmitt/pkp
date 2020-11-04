@@ -1,5 +1,8 @@
 # pkp ⚡⚡
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/pschmitt/pkp)](https://github.com/pschmitt/pkp/releases/latest)
+[![Python Lint](https://github.com/pschmitt/pkp/workflows/Python%20Lint/badge.svg)](https://github.com/pschmitt/pkp/actions?query=workflow%3A%22Python+Lint%22)
+
 `pkp` ([pronunciation](https://www.youtube.com/watch?v=9c0rNjyVbT8)) is a 
 simple CLI tool to query KeePass databases from CLI.
 
