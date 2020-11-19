@@ -136,7 +136,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyinstaller"
-version = "4.0"
+version = "4.1"
 description = "PyInstaller bundles a Python application and all its dependencies into a single package."
 category = "dev"
 optional = false
@@ -218,7 +218,7 @@ pyelftools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "aa780e961364107f5ae59b66e4a0763f68813b1fb488ee1750ace4b1df206bd5"
+content-hash = "237c49a22bb885ee83130a0336f63107b4d5169af4f210e04242c883a1487535"
 
 [metadata.files]
 altgraph = [
@@ -351,6 +351,8 @@ pycryptodomex = [
     {file = "pycryptodomex-3.9.9-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:5e486cab2dfcfaec934dd4f5d5837f4a9428b690f4d92a3b020fd31d1497ca64"},
     {file = "pycryptodomex-3.9.9-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:42669638e4f7937b7141044a2fbd1019caca62bd2cdd8b535f731426ab07bde1"},
     {file = "pycryptodomex-3.9.9-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:4ce1fc1e6d2fd2d6dc197607153327989a128c093e0e94dca63408f506622c3e"},
+    {file = "pycryptodomex-3.9.9-cp27-cp27m-win32.whl", hash = "sha256:d2d1388595cb5d27d9220d5cbaff4f37c6ec696a25882eb06d224d241e6e93fb"},
+    {file = "pycryptodomex-3.9.9-cp27-cp27m-win_amd64.whl", hash = "sha256:a1d38a96da57e6103423a446079ead600b450cf0f8ebf56a231895abf77e7ffc"},
     {file = "pycryptodomex-3.9.9-cp27-cp27mu-manylinux1_i686.whl", hash = "sha256:934e460c5058346c6f1d62fdf3db5680fbdfbfd212722d24d8277bf47cd9ebdc"},
     {file = "pycryptodomex-3.9.9-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:3642252d7bfc4403a42050e18ba748bedebd5a998a8cba89665a4f42aea4c380"},
     {file = "pycryptodomex-3.9.9-cp35-cp35m-macosx_10_6_intel.whl", hash = "sha256:a385fceaa0cdb97f0098f1c1e9ec0b46cc09186ddf60ec23538e871b1dddb6dc"},
@@ -361,24 +363,33 @@ pycryptodomex = [
     {file = "pycryptodomex-3.9.9-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:a9aac1a30b00b5038d3d8e48248f3b58ea15c827b67325c0d18a447552e30fc8"},
     {file = "pycryptodomex-3.9.9-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:a7cf1c14e47027d9fb9d26aa62e5d603994227bd635e58a8df4b1d2d1b6a8ed7"},
     {file = "pycryptodomex-3.9.9-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:20fb7f4efc494016eab1bc2f555bc0a12dd5ca61f35c95df8061818ffb2c20a3"},
+    {file = "pycryptodomex-3.9.9-cp36-cp36m-win32.whl", hash = "sha256:892e93f3e7e10c751d6c17fa0dc422f7984cfd5eb6690011f9264dc73e2775fc"},
+    {file = "pycryptodomex-3.9.9-cp36-cp36m-win_amd64.whl", hash = "sha256:28ee3bcb4d609aea3040cad995a8e2c9c6dc57c12183dadd69e53880c35333b9"},
     {file = "pycryptodomex-3.9.9-cp37-cp37m-macosx_10_6_intel.whl", hash = "sha256:d62fbab185a6b01c5469eda9f0795f3d1a5bba24f5a5813f362e4b73a3c4dc70"},
     {file = "pycryptodomex-3.9.9-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:bef9e9d39393dc7baec39ba4bac6c73826a4db02114cdeade2552a9d6afa16e2"},
     {file = "pycryptodomex-3.9.9-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:f20a62397e09704049ce9007bea4f6bad965ba9336a760c6f4ef1b4192e12d6d"},
     {file = "pycryptodomex-3.9.9-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:c885fe4d5f26ce8ca20c97d02e88f5fdd92c01e1cc771ad0951b21e1641faf6d"},
+    {file = "pycryptodomex-3.9.9-cp37-cp37m-win32.whl", hash = "sha256:f81f7311250d9480e36dec819127897ae772e7e8de07abfabe931b8566770b8e"},
+    {file = "pycryptodomex-3.9.9-cp37-cp37m-win_amd64.whl", hash = "sha256:55cf4e99b3ba0122dee570dc7661b97bf35c16aab3e2ccb5070709d282a1c7ab"},
     {file = "pycryptodomex-3.9.9-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:15c03ffdac17731b126880622823d30d0a3cc7203cd219e6b9814140a44e7fab"},
     {file = "pycryptodomex-3.9.9-cp38-cp38-manylinux1_i686.whl", hash = "sha256:3547b87b16aad6afb28c9b3a9cd870e11b5e7b5ac649b74265258d96d8de1130"},
     {file = "pycryptodomex-3.9.9-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:65ec88c8271448d2ea109d35c1f297b09b872c57214ab7e832e413090d3469a9"},
     {file = "pycryptodomex-3.9.9-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:404faa3e518f8bea516aae2aac47d4d960397199a15b4bd6f66cad97825469a0"},
+    {file = "pycryptodomex-3.9.9-cp38-cp38-win32.whl", hash = "sha256:d2e853e0f9535e693fade97768cf7293f3febabecc5feb1e9b2ffdfe1044ab96"},
+    {file = "pycryptodomex-3.9.9-cp38-cp38-win_amd64.whl", hash = "sha256:836fe39282e75311ce4c38468be148f7fac0df3d461c5de58c5ff1ddb8966bac"},
     {file = "pycryptodomex-3.9.9-cp39-cp39-manylinux1_i686.whl", hash = "sha256:4a88c9383d273bdce3afc216020282c9c5c39ec0bd9462b1a206af6afa377cf0"},
     {file = "pycryptodomex-3.9.9-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:9736f3f3e1761024200637a080a4f922f5298ad5d780e10dbb5634fe8c65b34c"},
     {file = "pycryptodomex-3.9.9-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:6c95a3361ce70068cf69526a58751f73ddac5ba27a3c2379b057efa2f5338c8c"},
+    {file = "pycryptodomex-3.9.9-cp39-cp39-win32.whl", hash = "sha256:b696876ee583d15310be57311e90e153a84b7913ac93e6b99675c0c9867926d0"},
+    {file = "pycryptodomex-3.9.9-cp39-cp39-win_amd64.whl", hash = "sha256:7651211e15109ac0058a49159265d9f6e6423c8a81c65434d3c56d708417a05b"},
+    {file = "pycryptodomex-3.9.9.tar.gz", hash = "sha256:7b5b7c5896f8172ea0beb283f7f9428e0ab88ec248ce0a5b8c98d73e26267d51"},
 ]
 pyelftools = [
     {file = "pyelftools-0.27-py2.py3-none-any.whl", hash = "sha256:5609aa6da1123fccfae2e8431a67b4146aa7fad5b3889f808df12b110f230937"},
     {file = "pyelftools-0.27.tar.gz", hash = "sha256:cde854e662774c5457d688ca41615f6594187ba7067af101232df889a6b7a66b"},
 ]
 pyinstaller = [
-    {file = "pyinstaller-4.0.tar.gz", hash = "sha256:970beb07115761d5e4ec317c1351b712fd90ae7f23994db914c633281f99bab0"},
+    {file = "pyinstaller-4.1.tar.gz", hash = "sha256:954ae81de9a4bc096ff02433b3e245b9272fe53f27cac319e71fe7540952bd3d"},
 ]
 pyinstaller-hooks-contrib = [
     {file = "pyinstaller-hooks-contrib-2020.10.tar.gz", hash = "sha256:bf4543a16c9c6e9dd2d70ea3fee78b81d3357a68f706df471d990213892259d9"},
