@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 
 usage() {
-  echo "Usage: $(basename "$0") requirements|readme"
-}
-
-update_requirements() {
-  cd "$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)" || exit 9
-
-  poetry export -f requirements.txt --without-hashes -o requirements.txt
-  poetry export -f requirements.txt --without-hashes --dev -o requirements-dev.txt
+  echo "Usage: $(basename "$0") readme|version"
 }
 
 update_readme() {
@@ -120,9 +113,6 @@ then
     help|h|-h|--help)
       usage
       exit 0
-      ;;
-    requirements|req)
-      update_requirements
       ;;
     readme|md|README|README.md)
       update_readme
