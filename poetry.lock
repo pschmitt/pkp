@@ -136,11 +136,11 @@ python-versions = "*"
 
 [[package]]
 name = "pyinstaller"
-version = "4.2"
+version = "4.3"
 description = "PyInstaller bundles a Python application and all its dependencies into a single package."
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [package.dependencies]
 altgraph = "*"
@@ -218,7 +218,7 @@ pyelftools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">= 3.8, < 4.0"
-content-hash = "6cdba08d649c7c40e5bb671b75d33100f8b3e570e3ab1dd7bdff74e8861f478a"
+content-hash = "1655702fea1aa24502d17858d1b46647f0155a6cc9784e18535bf021b88c33b3"
 
 [metadata.files]
 altgraph = [
@@ -389,7 +389,7 @@ pyelftools = [
     {file = "pyelftools-0.27.tar.gz", hash = "sha256:cde854e662774c5457d688ca41615f6594187ba7067af101232df889a6b7a66b"},
 ]
 pyinstaller = [
-    {file = "pyinstaller-4.2.tar.gz", hash = "sha256:f5c0eeb2aa663cce9a5404292c0195011fa500a6501c873a466b2e8cad3c950c"},
+    {file = "pyinstaller-4.3.tar.gz", hash = "sha256:5ecf8bbc230d7298a796e52bb745b95eee12878d141f1645612c99246ecd23f2"},
 ]
 pyinstaller-hooks-contrib = [
     {file = "pyinstaller-hooks-contrib-2020.10.tar.gz", hash = "sha256:bf4543a16c9c6e9dd2d70ea3fee78b81d3357a68f706df471d990213892259d9"},
