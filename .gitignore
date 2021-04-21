@@ -7,3 +7,4 @@ dist/
 *.egg-info
 init.ipy
 *.kdbx
+.vim/
