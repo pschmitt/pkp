@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BUILD_IMAGE=pschmitt/pyinstaller:3.8
+BUILD_IMAGE=pschmitt/pyinstaller:3.9
 MANIFEST= # $(cat ./MANIFEST.cache)
 
 usage() {
