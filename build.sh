@@ -54,11 +54,21 @@ build() {
   echo "👷 Starting build of pkp (${arch})"
 
   cd "$(readlink -f "$(dirname "$0")")" || exit 9
+
+  local extra_args=()
+  if [[ "$arch" == arm ]]
+  then
+    # DIRTYFIX for https://github.com/docker/buildx/issues/395
+    # Upstream issue https://github.com/pyca/cryptography/issues/5771
+    extra_args+=(-e CRYPTOGRAPHY_DONT_BUILD_RUST=1)
+  fi
+
   docker run --rm \
     -v "$PWD:/app" \
     -e STATICX=1 \
     -e STATICX_ARGS="--strip" \
     -e STATICX_OUTPUT="./dist/pkp-${arch}-static" \
+    "${extra_args[@]}" \
     "pschmitt/pyinstaller@${digest}" \
     -n "pkp-${arch}" pkp.py
 }
