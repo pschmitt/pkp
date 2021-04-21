@@ -21,6 +21,13 @@ get_build_image_manifest() {
   echo "$MANIFEST"
 }
 
+get_build_image_manifest_for_arch() {
+  local arch="${1:-amd64}"
+
+  get_build_image_manifest | \
+    jq -r '.manifests[] | select(.platform.architecture == "'"${arch}"'")'
+}
+
 get_build_image_archs() {
   get_build_image_manifest | \
     jq -r '.manifests[].platform.architecture' | \
@@ -28,10 +35,13 @@ get_build_image_archs() {
 }
 
 get_build_image_digest() {
-  local arch="${1:-amd64}"
+  get_build_image_manifest_for_arch "$1" | \
+    jq -r '.digest'
+}
 
-  get_build_image_manifest | \
-    jq -r '.manifests[] | select(.platform.architecture == "'"${arch}"'").digest'
+get_build_image_platform_name() {
+  get_build_image_manifest_for_arch "$1" | \
+    jq -r '.platform | .os + "/" + .architecture + "/" + .variant'
 }
 
 build() {
@@ -63,7 +73,15 @@ build() {
     extra_args+=(-e CRYPTOGRAPHY_DONT_BUILD_RUST=1)
   fi
 
-  docker run --rm \
+  # Get the actual platform name (eg: linux/arm/v7) of the target image to
+  # silence the following warning:
+  # WARNING: The requested image's platform (linux/arm/v7) does not
+  # match the detected host platform (linux/amd64) and no specific
+  # platform was requested
+  local platform
+  platform="$(get_build_image_platform_name "$arch")"
+
+  docker run --rm --platform "$platform" \
     -v "$PWD:/app" \
     -e STATICX=1 \
     -e STATICX_ARGS="--strip" \
