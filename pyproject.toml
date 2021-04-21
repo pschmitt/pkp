@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pkp"
-version = "0.6.3"
+version = "0.6.4"
 description = "Straightforward CLI for KeePass - powered by pykeepass"
 authors = ["Philipp Schmitt <philipp@schmitt.co>"]
 repository = "https://github.com/pschmitt/pkp"
