@@ -5,6 +5,7 @@ __version__ = "0.6.3"
 
 import argparse
 import logging
+import os
 import re
 import sys
 
@@ -73,6 +74,14 @@ def parse_args():
     )
     parser_get.add_argument(
         "-a", "--attribute", default="password", help="Attribute to fetch"
+    )
+    parser_get.add_argument(
+        "ATTACHMENT", nargs="?", help="Filename of the attachment"
+    )
+    parser_get.add_argument(
+        "DESTINATION",
+        nargs="?",
+        help="Where to save attachement (file or - for stdout)",
     )
     parser_get.add_argument("VALUE", nargs="+")
 
@@ -194,7 +203,29 @@ def get(kp, args):
     entry = _get_entry(kp, args)
     if not entry:
         return 3
-    print(getattr(entry, args.attribute))
+    if args.attribute.lower() in ["att", "attachment"]:
+        att = [x for x in entry.attachments if x.filename == args.ATTACHMENT]
+        if not att:
+            LOGGER.error(
+                f"Could not find an attachment named {args.ATTACHMENT}"
+            )
+            return 3
+        # Default to first match (there should only be one anyway)
+        att = att[0]
+        if args.DESTINATION == "-":
+            print(att.data.decode("utf-8"))
+        else:
+            fname = os.path.abspath(
+                args.DESTINATION if args.DESTINATION else att.filename
+            )
+            if os.path.exists(fname):
+                LOGGER.error(f"File {fname} already exists.")
+                return 4
+            with open(fname, "wb") as f:
+                f.write(att.data)
+            print(f"Wrote attachment to {fname}")
+    else:
+        print(getattr(entry, args.attribute))
 
 
 def show(kp, args):
