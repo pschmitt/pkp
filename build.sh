@@ -41,7 +41,8 @@ get_build_image_digest() {
 
 get_build_image_platform_name() {
   get_build_image_manifest_for_arch "$1" | \
-    jq -r '.platform | .os + "/" + .architecture + "/" + .variant'
+    jq -r '.platform | .os + "/" + .architecture +
+      (if (.variant != null) then ("/" + .variant) else "" end)'
 }
 
 build() {
