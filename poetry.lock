@@ -206,7 +206,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "staticx"
-version = "0.12.1"
+version = "0.12.2"
 description = "Build static self-extracting app from dynamic executable"
 category = "dev"
 optional = false
@@ -218,7 +218,7 @@ pyelftools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">= 3.8, < 4.0"
-content-hash = "1655702fea1aa24502d17858d1b46647f0155a6cc9784e18535bf021b88c33b3"
+content-hash = "bb9bb1db89ffecd874b6f4140e4c647894b828cb40616b5d9ddcf94d13534d40"
 
 [metadata.files]
 altgraph = [
@@ -244,6 +244,10 @@ argon2-cffi = [
     {file = "argon2_cffi-20.1.0-cp38-cp38-win_amd64.whl", hash = "sha256:9dfd5197852530294ecb5795c97a823839258dfd5eb9420233c7cfedec2058f2"},
     {file = "argon2_cffi-20.1.0-cp39-cp39-win32.whl", hash = "sha256:e2db6e85c057c16d0bd3b4d2b04f270a7467c147381e8fd73cbbe5bc719832be"},
     {file = "argon2_cffi-20.1.0-cp39-cp39-win_amd64.whl", hash = "sha256:8a84934bd818e14a17943de8099d41160da4a336bcc699bb4c394bbb9b94bd32"},
+    {file = "argon2_cffi-20.1.0-pp36-pypy36_pp73-macosx_10_7_x86_64.whl", hash = "sha256:b94042e5dcaa5d08cf104a54bfae614be502c6f44c9c89ad1535b2ebdaacbd4c"},
+    {file = "argon2_cffi-20.1.0-pp36-pypy36_pp73-win32.whl", hash = "sha256:8282b84ceb46b5b75c3a882b28856b8cd7e647ac71995e71b6705ec06fc232c3"},
+    {file = "argon2_cffi-20.1.0-pp37-pypy37_pp73-macosx_10_7_x86_64.whl", hash = "sha256:3aa804c0e52f208973845e8b10c70d8957c9e5a666f702793256242e9167c4e0"},
+    {file = "argon2_cffi-20.1.0-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:36320372133a003374ef4275fbfce78b7ab581440dfca9f9471be3dd9a522428"},
 ]
 cffi = [
     {file = "cffi-1.14.3-2-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3eeeb0405fd145e714f7633a5173318bd88d8bbfc3dd0a5751f8c4f70ae629bc"},
@@ -412,6 +416,6 @@ six = [
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 staticx = [
-    {file = "staticx-0.12.1-py3-none-manylinux1_x86_64.whl", hash = "sha256:d6b89882c511d66a0f4ae9a22baeb60448bda92b7e4886545d3a460cacdaaf8d"},
-    {file = "staticx-0.12.1.tar.gz", hash = "sha256:b3316038d546c5ebbaba5a1f1f6a81979f50c3c5e7b9077c574aebf3a4b7e660"},
+    {file = "staticx-0.12.2-py3-none-manylinux1_x86_64.whl", hash = "sha256:23361f03bd0e8d0734c9a1e32c2d0dfa7da591188f7d3ecad479d44c1186d5ac"},
+    {file = "staticx-0.12.2.tar.gz", hash = "sha256:e38c940277a983b2f0c4a13ba8c8a5b151e0a384aa939280a14b9eadb237f584"},
 ]
