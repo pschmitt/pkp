@@ -16,7 +16,7 @@ jobs:
         arch:
           - amd64
           - 386
-          - arm
+          # - arm
           - arm64
           # - ppc64le
           # - s390x
@@ -84,7 +84,7 @@ jobs:
         arch:
           - amd64
           - 386
-          - arm
+          # - arm
           - arm64
           # - ppc64le
           # - s390x
