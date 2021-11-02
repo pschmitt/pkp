@@ -123,7 +123,7 @@ def print_error(message, color=True, file=sys.stderr):
 
 def print_entry(entry, color=True, file=sys.stdout):
     print(
-        f"{colorama.Fore.GREEN}{entry.path}"
+        f"{colorama.Fore.GREEN}{'/'.join(entry.path)}"
         f"{colorama.Style.RESET_ALL} "
         f"{colorama.Fore.LIGHTBLACK_EX}[uuid: {entry.uuid}]"
         f"{colorama.Style.RESET_ALL}",
@@ -158,11 +158,8 @@ def ls(kp, args):
             args.PATH if regex else f"^{args.PATH}.*",
             re.IGNORECASE if ignorecase else 0,
         )
-
-        LOGGER.debug(
-            f"Searching for entries whose path match {regex_path}",
-        )
-        entries = [x for x in entries if re.match(regex_path, x.path)]
+        LOGGER.debug(f"Searching for entries matching path {regex_path}")
+        entries = [x for x in entries if re.match(regex_path, "/".join(x.path))]
     for entry in entries:
         print_entry(entry, color=color)
 
