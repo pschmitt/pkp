@@ -207,7 +207,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "staticx"
-version = "0.13.6"
+version = "0.13.8"
 description = "Build static self-extracting app from dynamic executable"
 category = "dev"
 optional = false
@@ -219,7 +219,7 @@ pyelftools = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = ">= 3.8, < 4.0"
-content-hash = "dcf0661a22eeb20fd8c09549e251144c1d62873fd2a818972ffa24e87183893c"
+content-hash = "91aacdbab757ecdc4765a2651a195ce298978c23fd9599e82d7a20b0299416bd"
 
 [metadata.files]
 altgraph = [
@@ -455,6 +455,6 @@ six = [
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
 ]
 staticx = [
-    {file = "staticx-0.13.6-py3-none-manylinux1_x86_64.whl", hash = "sha256:c3e91cf71bd6aa86b1ab558bc464cdbc255bfff667f927f995a83bee3b18df70"},
-    {file = "staticx-0.13.6.tar.gz", hash = "sha256:34a88480766416774cc70f6c2a192e2c1702ba5cfd3415f50e6358504bce7c85"},
+    {file = "staticx-0.13.8-py3-none-manylinux1_x86_64.whl", hash = "sha256:b9f2ac9ad23dcf09099216a93d9c3c44e583a9b7959620a11f4d24a8f87d3c28"},
+    {file = "staticx-0.13.8.tar.gz", hash = "sha256:ed0104c907f760a7d459357402bcba10b52515fded71959536bb06302ff72f5b"},
 ]
