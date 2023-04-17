@@ -17,7 +17,7 @@ colorama = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 pyinstaller = "^4.5"
-staticx = "^0.13.8"
+staticx = "^0.13.9"
 isort = "^5.12.0"
 
 [build-system]
