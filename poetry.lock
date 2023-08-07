@@ -439,13 +439,13 @@ files = [
 
 [[package]]
 name = "staticx"
-version = "0.14.0"
+version = "0.14.1"
 description = "Build static self-extracting app from dynamic executable"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "staticx-0.14.0-py3-none-manylinux1_x86_64.whl", hash = "sha256:0f29afca91e24617005e2d2ad118d3040b078514dca4fdffc0d56b513dc1b36b"},
-    {file = "staticx-0.14.0.tar.gz", hash = "sha256:447bff93f222b3e4932e68d0eacf2076f1c0e2a8f262634fbe58f140217a56b7"},
+    {file = "staticx-0.14.1-py3-none-manylinux1_x86_64.whl", hash = "sha256:bd34ee12e2d97d9c88970855817a70750745ce6bddc616c42fb318bb5a422e89"},
+    {file = "staticx-0.14.1.tar.gz", hash = "sha256:dbf18c1016b0be4000f480095ed3ef335b512a7d992b469cb094fbc40921a218"},
 ]
 
 [package.dependencies]
@@ -454,4 +454,4 @@ pyelftools = "*"
 [metadata]
 lock-version = "2.0"
 python-versions = ">= 3.8, < 4.0"
-content-hash = "ea2c3c6e147b414e3c69075cdd818ccd24eb49b46b182309b2b80fc8499d0897"
+content-hash = "8fe3978fe8ab9605c654fd26b6b3f43d0265260f39e2f770d3c92a9c1d277335"
