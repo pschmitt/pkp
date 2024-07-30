@@ -363,13 +363,13 @@ files = [
 
 [[package]]
 name = "pykeepass"
-version = "4.1.0"
+version = "4.1.0.post1"
 description = "Python library to interact with keepass databases (supports KDBX3 and KDBX4)"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pykeepass-4.1.0-py3-none-any.whl", hash = "sha256:bf4ee2a4d13a7f1d54938a0813c1b73a05196ca3029c2fe218dc4383144734c9"},
-    {file = "pykeepass-4.1.0.tar.gz", hash = "sha256:8d376cefe520695154a6a1bfaf34e36cfe8c606b0923d13335390ce38daee62a"},
+    {file = "pykeepass-4.1.0.post1-py3-none-any.whl", hash = "sha256:e51fb95639ef01fb9bda679b29edabe896bb4def6958acabc4b9bf375d27571d"},
+    {file = "pykeepass-4.1.0.post1.tar.gz", hash = "sha256:dfc59734824eb7bb9fb57ddd3cada9fcc4faf74f718d2c3876be2f00ed69980a"},
 ]
 
 [package.dependencies]
