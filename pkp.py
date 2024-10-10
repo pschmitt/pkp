@@ -114,9 +114,11 @@ def is_uuid(name):
 
 def print_error(message, color=True, file=sys.stderr):
     print(
-        f"{colorama.Fore.RED}{message}{colorama.Style.RESET_ALL}"
-        if color
-        else message,
+        (
+            f"{colorama.Fore.RED}{message}{colorama.Style.RESET_ALL}"
+            if color
+            else message
+        ),
         file=file,
     )
 
@@ -159,7 +161,9 @@ def ls(kp, args):
             re.IGNORECASE if ignorecase else 0,
         )
         LOGGER.debug(f"Searching for entries matching path {regex_path}")
-        entries = [x for x in entries if re.match(regex_path, "/".join(x.path))]
+        entries = [
+            x for x in entries if re.match(regex_path, "/".join(x.path))
+        ]
     for entry in entries:
         print_entry(entry, color=color)
 
