@@ -81,5 +81,6 @@ jobs:
       - name: Check if README is up to date (pkp --help)
         run: |
           cp README.md README.md.orig
+          pip install .
           ./dev-update.sh README
           diff ./README.md ./README.md.orig
