@@ -1,6 +1,6 @@
 [project]
 name = "pkp"
-version = "0.6.5"
+version = "0.6.6"
 description = "Straightforward CLI for KeePass - powered by pykeepass"
 authors = [
   {name = "Philipp Schmitt", email = "philipp@schmitt.co"}
