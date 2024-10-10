@@ -15,7 +15,7 @@ jobs:
       matrix:
         arch:
           - amd64
-          - 386
+          # - 386
           # - arm
           - arm64
           # - ppc64le
