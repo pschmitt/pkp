@@ -55,7 +55,7 @@ update_version() {
   cd "$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)" || exit 9
 
   local current_version
-  current_version="$(poetry version -s --no-ansi)"
+  current_version="$(grep -m1 -Po '(?<=^version = ")[^"]*' pyproject.toml)"
 
   if [[ "$new_version" == "bump" ]]
   then
@@ -94,8 +94,6 @@ update_version() {
   then
     git tag -s "$new_version" -m "$new_version"
     git push --follow-tags
-
-    poetry publish --build
   fi
 }
 
