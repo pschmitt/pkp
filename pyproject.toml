@@ -1,28 +1,37 @@
-[tool.poetry]
+[project]
 name = "pkp"
 version = "0.6.5"
 description = "Straightforward CLI for KeePass - powered by pykeepass"
-authors = ["Philipp Schmitt <philipp@schmitt.co>"]
-repository = "https://github.com/pschmitt/pkp"
-license = "GPL-3.0-only"
-readme = "README.md"
+authors = [
+  {name = "Philipp Schmitt", email = "philipp@schmitt.co"}
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+requires-python = ">=3.8,<4.0"
+dependencies = [
+  "colorama>=0.4.4",
+  "pykeepass>=3.2.1,<5.0.0",
+]
 
-[tool.poetry.scripts]
+[project.urls]
+documentation = "https://github.com/pschmitt/pkp/blob/head/readme.md"
+homepage = "https://github.com/pschmitt/pkp"
+issues = "https://github.com/pschmitt/pkp/issues"
+repository = "https://github.com/pschmitt/pkp"
+
+[project.scripts]
 pkp = "pkp:cli_main"
 
-[tool.poetry.dependencies]
-python = ">= 3.8, < 4.0"
-pykeepass = ">=3.2.1,<5.0.0"
-colorama = "^0.4.4"
-
-[tool.poetry.dev-dependencies]
-pyinstaller = "^4.5"
-staticx = "^0.14.1"
-isort = "^5.13.2"
+[project.optional-dependencies]
+dev = [
+  "isort>=5.13.2",
+  "pyinstaller>=4.5",
+  "staticx>=0.14.1",
+]
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["setuptools", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.black]
-line-length = 80
+line-length = 79
