@@ -72,13 +72,17 @@ jobs:
 
       - name: List artifacts
         run: |
-          ls -alh ./bins
+          tree ./bins
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: ./bins/*
+          fail_on_unmatched_files: true
+          # upload-artifact creates files like this:
+          # ./bins/pkp-0.6.9-amd64-static/pkp-0.6.9-amd64-static
+          # https://github.com/softprops/action-gh-release/issues/342
+          files: ./bins/pkp*/pkp*
   #
   #     # - name: Delete release if anything goes wrong.
   #     #   if: ${{ failure() }}
