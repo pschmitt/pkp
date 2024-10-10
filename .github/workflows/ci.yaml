@@ -30,31 +30,6 @@ jobs:
           # exit-zero treats all errors as warnings. Set line length to 80 chars max.
           flake8 . --count --max-complexity=10 --max-line-length=80 --statistics
 
-  poetry:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-
-      - name: Create poetry env
-        run: |
-          poetry install
-
-      - name: Check compare version in pyproject.toml and pkp.__version__
-        run: |
-          v_pyproject=$(poetry version -s --no-ansi)
-          v_py=$(poetry run python -c "import pkp; print(pkp.__version__)")
-          if [[ "$v_pyproject" != "$v_py" ]]; then echo "Version mismatch detected" >&2; exit 1; fi
-
   isort:
     runs-on: ubuntu-latest
     steps:
@@ -63,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.x
 
       - name: Install dependencies
         run: |
@@ -82,7 +57,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.x
 
       - name: Install dependencies
         run: |
@@ -101,16 +76,7 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-
-      - name: Create poetry env
-        run: |
-          poetry install
+          python-version: 3.x
 
       - name: Check if README is up to date (pkp --help)
         run: |

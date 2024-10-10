@@ -70,7 +70,7 @@ positional arguments:
     search (find, fd, se, f, s)
                         Find entries
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -V, --version         show program's version number and exit
   -f FILE, --file FILE  KeePass DB file
