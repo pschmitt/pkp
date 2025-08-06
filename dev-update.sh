@@ -12,7 +12,7 @@ update_readme() {
   local help_md
   local usage_str
 
-  usage_str="$(python pkp.py --help 2>&1)"
+  usage_str="$(uv run pkp --help 2>&1)"
 
   # shellcheck disable=2181
   if [[ "$?" -ne 0 ]] || [[ -z "$usage_str" ]]
