@@ -56,9 +56,8 @@ Just run `pkp --help`. You'll get it:
 
 <!-- PKP_HELP -->
 ```
-usage: pkp.py [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-C] [-D]
-              {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
-              ...
+usage: pkp [-h] [-V] -f FILE [-p PASSWORD] [-F KEYFILE] [-I] [-r] [-C] [-D]
+           {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s} ...
 
 positional arguments:
   {list,ls,l,get,g,entry,e,show,display,sh,ds,search,find,fd,se,f,s}
@@ -73,10 +72,10 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -V, --version         show program's version number and exit
-  -f FILE, --file FILE  KeePass DB file
-  -p PASSWORD, --password PASSWORD
+  -f, --file FILE       KeePass DB file
+  -p, --password PASSWORD
                         Password
-  -F KEYFILE, --keyfile KEYFILE
+  -F, --keyfile KEYFILE
                         Key file
   -I, --case-sensitive  Case sensitive matching
   -r, --raw             Disable REGEX path search
