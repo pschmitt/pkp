@@ -45,13 +45,13 @@ jobs:
           ./build.sh "${{ matrix.arch }}"
 
       - name: Upload binary artifact (dynamic)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: pkp-${{ matrix.arch }}
           path: ./dist/pkp-${{ matrix.arch }}
 
       - name: Upload binary artifact (static)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: pkp-${{ matrix.arch }}-static
           path: ./dist/pkp-${{ matrix.arch }}-static
