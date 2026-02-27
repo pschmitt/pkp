@@ -45,13 +45,13 @@ jobs:
           ./build.sh "${{ matrix.arch }}"
 
       - name: Upload binary artifact (dynamic)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: pkp-${{ matrix.arch }}
           path: ./dist/pkp-${{ matrix.arch }}
 
       - name: Upload binary artifact (static)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: pkp-${{ matrix.arch }}-static
           path: ./dist/pkp-${{ matrix.arch }}-static
@@ -66,7 +66,7 @@ jobs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: ./bins
 
